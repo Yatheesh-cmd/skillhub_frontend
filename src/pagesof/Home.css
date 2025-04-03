@@ -1,0 +1,171 @@
+/* Global Styles */
+.hero-section {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1D075A, #ff2b75, #0E1D72); /* Unchanged background */
+  padding: 0 6rem;
+  color: #fff;
+  overflow: hidden;
+  position: relative;
+}
+
+h1 {
+  font-size: 4.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.5px;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+h1 .highlight {
+  color: #FFD700; /* Gold highlight */
+  font-weight: 800;
+  background: linear-gradient(90deg, #FFD700, #FFEA80);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.lead {
+  font-size: 1.5rem;
+  line-height: 1.8;
+  color: #E0E0E0;
+  max-width: 85%;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+.sub-lead {
+  font-size: 1.2rem;
+  line-height: 1.7;
+  color: #D0D0D0;
+  max-width: 85%;
+  margin-bottom: 3.5rem;
+  font-weight: 300;
+}
+
+/* Button Styling */
+.custom-btn {
+  padding: 16px 48px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  transition: all 0.4s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.custom-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.btn-primary {
+  background: #4CAF50;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #45A049;
+}
+
+.btn-outline-light {
+  border: 2px solid #FFFFFF;
+  color: #FFFFFF;
+}
+
+.btn-outline-light:hover {
+  background: #FFFFFF;
+  color: #1D075A;
+}
+
+/* Image Styling and Animation */
+.professional-image {
+  max-width: 120%; /* Increased from 100% to 120% for a larger image */
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.4));
+}
+
+.animate-float {
+  animation: floatPulse 5s infinite ease-in-out;
+}
+
+/* Enhanced Image Animation */
+@keyframes floatPulse {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Fade-In Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .hero-section {
+    padding: 0 3rem;
+  }
+
+  h1 {
+    font-size: 3.5rem;
+  }
+
+  .lead {
+    font-size: 1.3rem;
+    max-width: 100%;
+  }
+
+  .sub-lead {
+    font-size: 1.1rem;
+    max-width: 100%;
+  }
+
+  .professional-image {
+    max-width: 100%; /* Reduced to 100% for medium screens */
+  }
+
+  .custom-btn {
+    padding: 12px 36px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section {
+    padding: 0 1.5rem;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .lead {
+    font-size: 1.1rem;
+  }
+
+  .sub-lead {
+    font-size: 0.95rem;
+  }
+
+  .custom-btn {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+  }
+
+  .professional-image {
+    max-width: 90%; /* Reduced to 90% for small screens */
+  }
+}

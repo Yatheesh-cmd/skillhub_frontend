@@ -45,25 +45,28 @@ function AdminDashboard() {
   };
 
   return (
-    <Container fluid className="py-5" style={{ background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)', minHeight: '100vh' }}>
-      <Row className="mb-4">
+    <Container fluid className="py-5" style={{ background: 'linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%)', minHeight: '100vh' }}>
+      <Row className="mb-5">
         <Col>
           <Card className="shadow-lg border-0" style={{ borderRadius: '15px', overflow: 'hidden' }}>
-            <Card.Header className="bg-primary text-white py-4 px-4">
+            <Card.Header
+              className="text-white py-4 px-4"
+              style={{ background: 'linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)' }} // Professional blue gradient
+            >
               <div className="d-flex justify-content-between align-items-center">
-                <h1 className="mb-0 fw-semibold" style={{ fontSize: '1.75rem' }}>
-                  <i className="fa-solid fa-user-shield me-2"></i>
-                  Admin Dashboard
+                <h1 className="mb-0 fw-bold" style={{ fontSize: '1.75rem' }}>
+                  <i className="fa-solid fa-user-shield me-2"></i> Admin Dashboard
                 </h1>
                 <div className="d-flex gap-3">
                   <AddCourse />
-                  <Link 
-                    to="/admin-orders" 
+                  <Link
+                    to="/admin-orders"
                     className="btn btn-outline-light fw-medium px-3 py-2"
-                    style={{ borderRadius: '8px' }}
+                    style={{ borderRadius: '8px', transition: 'all 0.3s ease' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)')}
+                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                   >
-                    <i className="fa-solid fa-list me-2"></i>
-                    View Orders
+                    <i className="fa-solid fa-list me-2"></i> View Orders
                   </Link>
                 </div>
               </div>
@@ -73,72 +76,101 @@ function AdminDashboard() {
       </Row>
 
       <Row className="g-4">
-        <Col>
-          {courses.length > 0 ? (
-            courses.map(course => (
-              <Card 
-                key={course._id} 
-                className="mb-4 border-0 shadow-sm"
-                style={{ 
-                  borderRadius: '12px', 
-                  transition: 'transform 0.2s, box-shadow 0.2s',
-                  ':hover': { transform: 'translateY(-5px)', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }
+        {courses.length > 0 ? (
+          courses.map(course => (
+            <Col key={course._id} xs={12} md={6} lg={4}>
+              <Card
+                className="h-100 border-0 shadow-sm"
+                style={{
+                  borderRadius: '15px',
+                  overflow: 'hidden',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px)';
+                  e.currentTarget.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.15)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.05)';
                 }}
               >
-                <Card.Body className="p-4">
-                  <div className="d-flex justify-content-between align-items-start">
-                    <div>
-                      <Card.Title className="fw-bold text-dark mb-2" style={{ fontSize: '1.25rem' }}>
-                        {course.title}
-                        <Badge bg="success" className="ms-2 px-2 py-1 fw-normal" style={{ fontSize: '0.85rem' }}>
-                          Active
-                        </Badge>
-                      </Card.Title>
-                      <Card.Text className="text-muted mb-3" style={{ fontSize: '0.95rem', lineHeight: '1.5' }}>
-                        {course.description}
-                      </Card.Text>
-                      <div className="d-flex gap-4">
-                        <Card.Text className="mb-0 text-muted" style={{ fontSize: '0.9rem' }}>
-                          <i className="fa-solid fa-user me-2 text-primary"></i>
-                          <span className="fw-medium">Instructor:</span> {course.instructor}
-                        </Card.Text>
-                        <Card.Text className="mb-0 text-muted" style={{ fontSize: '0.9rem' }}>
-                          
-                          <span className="fw-medium">Price: <i class="fa-solid fa-indian-rupee-sign"></i></span> {course.price}
-                        </Card.Text>
-                      </div>
-                    </div>
-                    <div className="d-flex gap-2">
-                      <EditCourse course={course} />
-                      <Button
-                        variant="outline-danger"
-                        size="sm"
-                        className="fw-medium px-3 py-2"
-                        style={{ borderRadius: '8px' }}
-                        onClick={() => handleDelete(course._id)}
-                      >
-                        <i className="fa-solid fa-trash me-2"></i>
-                        Delete
-                      </Button>
-                    </div>
+                <Card.Body className="p-4 d-flex flex-column">
+                  <div className="d-flex justify-content-between align-items-start mb-3">
+                    <Card.Title className="fw-bold text-dark" style={{ fontSize: '1.25rem' }}>
+                      {course.title}
+                      <Badge bg="success" className="ms-2 px-2 py-1 fw-normal" style={{ fontSize: '0.75rem' }}>
+                        Active
+                      </Badge>
+                    </Card.Title>
+                  </div>
+                  <Card.Text className="text-muted flex-grow-1 mb-3" style={{ fontSize: '0.9rem', lineHeight: '1.6' }}>
+                    {course.description}
+                  </Card.Text>
+                  <div className="mb-3">
+                    <p className="mb-1 text-muted" style={{ fontSize: '0.9rem' }}>
+                      <i className="fa-solid fa-user-tie me-2 text-info"></i>
+                      <strong>Instructor:</strong> {course.instructor}
+                    </p>
+                    {course.instructorPhone && (
+                      <p className="mb-1 text-muted" style={{ fontSize: '0.9rem' }}>
+                        <i className="fa-solid fa-phone me-2 text-success"></i>
+                        <strong>Contact:</strong> {course.instructorPhone}
+                      </p>
+                    )}
+                    {course.date && (
+                      <p className="mb-1 text-muted" style={{ fontSize: '0.9rem' }}>
+                        <i className="fa-solid fa-calendar-alt me-2 text-primary"></i>
+                        <strong>Date:</strong> {new Date(course.date).toLocaleDateString()}
+                      </p>
+                    )}
+                    <p className="mb-0 text-success fw-bold" style={{ fontSize: '1rem' }}>
+                      <i className="fa-solid fa-indian-rupee-sign me-2"></i>
+                      <strong>Price:</strong> ₹{course.price}
+                    </p>
+                  </div>
+                  <div className="d-flex justify-content-end gap-2 mt-auto">
+                    <EditCourse course={course} />
+                    <Button
+                      variant="outline-danger"
+                      size="sm"
+                      className="fw-medium px-3 py-2"
+                      style={{
+                        borderRadius: '8px',
+                        transition: 'all 0.3s ease',
+                      }}
+                      onClick={() => handleDelete(course._id)}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#dc3545';
+                        e.currentTarget.style.color = '#fff';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.color = '#dc3545';
+                      }}
+                    >
+                      <i className="fa-solid fa-trash me-2"></i> Delete
+                    </Button>
                   </div>
                 </Card.Body>
               </Card>
-            ))
-          ) : (
-            <Card className="border-0 shadow-sm" style={{ borderRadius: '12px' }}>
+            </Col>
+          ))
+        ) : (
+          <Col>
+            <Card className="border-0 shadow-sm" style={{ borderRadius: '15px' }}>
               <Card.Body className="text-center py-5">
-                <i className="fa-solid fa-exclamation-circle fa-2x text-danger mb-3"></i>
-                <h2 className="text-danger fw-semibold mb-3" style={{ fontSize: '1.5rem' }}>
+                <i className="fa-solid fa-exclamation-circle fa-3x text-warning mb-3"></i>
+                <h2 className="text-danger fw-semibold mb-3" style={{ fontSize: '1.75rem' }}>
                   No Courses Found
                 </h2>
-                <p className="text-muted mb-0" style={{ fontSize: '1rem' }}>
+                <p className="text-muted mb-0" style={{ fontSize: '1.1rem' }}>
                   Add a new course to get started
                 </p>
               </Card.Body>
             </Card>
-          )}
-        </Col>
+          </Col>
+        )}
       </Row>
     </Container>
   );

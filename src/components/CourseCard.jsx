@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Card, Modal, Button, Badge } from 'react-bootstrap';
+import { Card, Modal, Button, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { cartContext, wishlistContext } from '../context/ContextApi';
 import base_url from '../services/base_url';
 import { toast } from 'react-toastify';
@@ -10,213 +10,207 @@ function CourseCard({ course }) {
   const { addToCart } = useContext(cartContext);
   const { wishlist, setWishlist } = useContext(wishlistContext);
 
-  console.log('Course prop in CourseCard:', course);
-
   const handleAddToCart = () => {
     if (!course._id) {
-      console.warn('Cannot add course without _id:', course);
       toast.error('Invalid course data');
       return;
     }
     addToCart(course);
-    toast.success("Added to cart");
+    toast.success('Course added to cart!');
   };
 
   const addToWishlist = () => {
     if (!course._id) {
-      console.warn('Cannot add course without _id to wishlist:', course);
       toast.error('Invalid course data');
       return;
     }
     if (!wishlist.some(item => item._id === course._id)) {
       setWishlist([...wishlist, course]);
-      toast.success("Added to wishlist");
+      toast.success('Added to wishlist!');
     } else {
-      toast.info("Already in wishlist");
+      toast.info('Course already in wishlist');
     }
   };
 
   return (
     <>
       <Card
-        className="shadow-sm border-0 h-100"
+        className="h-100 border-0 shadow-sm"
         style={{
-          width: '20rem',
-          borderRadius: '12px',
+          width: '21rem',
+          borderRadius: '15px',
           overflow: 'hidden',
-          backgroundColor: '#fff',
-          transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+          transition: 'transform 0.3s ease',
         }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translateY(-5px)';
-          e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.15)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.05)';
-        }}
+        onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-10px)')}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
       >
         <div className="position-relative" style={{ height: '180px', overflow: 'hidden' }}>
           <Card.Img
             variant="top"
             src={course.image ? `${base_url}/uploads/${course.image}` : '/images/course-placeholder.jpg'}
             alt={course.title}
-            className="h-100 w-100 object-fit-cover"
-            onClick={() => setShow(true)}
-            style={{ cursor: 'pointer', transition: 'transform 0.5s ease' }}
+            className="h-100 w-100"
+            style={{
+              objectFit: 'cover',
+              cursor: 'pointer',
+              transition: 'transform 0.3s ease',
+            }}
             onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.05)')}
             onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+            onClick={() => setShow(true)}
           />
-          <Badge
-            bg="primary"
-            className="position-absolute top-0 end-0 mt-2 me-2 text-white fw-semibold"
-            style={{ padding: '4px 10px', borderRadius: '20px', fontSize: '0.75rem' }}
-          >
-            {course.category || 'Premium'}
+          <Badge bg="success" className="position-absolute top-0 end-0 m-2">
+            {course.category || 'Available'}
           </Badge>
         </div>
-
-        <Card.Body className="p-4">
-          <Card.Title
-            className="fw-bold mb-2"
-            style={{ fontSize: '1.25rem', color: '#1a1a1a' }}
-          >
+        <Card.Body className="d-flex flex-column p-3">
+          <Card.Title className="fw-bold text-dark mb-2" style={{ fontSize: '1rem' }}>
             {course.title}
           </Card.Title>
-          <Card.Text
-            className="text-muted mb-3"
-            style={{ fontSize: '0.95rem', lineHeight: '1.5' }}
-          >
+          <Card.Text className="text-muted flex-grow-1" style={{ fontSize: '0.85rem' }}>
             {course.description?.substring(0, 60)}...
           </Card.Text>
           {course.instructor && (
-            <Badge bg="danger" className="mb-2" style={{ fontSize: '0.9rem' }}>
-              {course.instructor}
+            <Badge
+              className="mb-2 text-white"
+              style={{
+                background: 'linear-gradient(135deg, #0d9488 0%, #38b2ac 100%)', // Updated teal gradient
+                fontSize: '0.8rem',
+              }}
+            >
+              <i className="fa-solid fa-user-tie me-1"></i> {course.instructor}
             </Badge>
           )}
           {course.date && (
-            <Card.Text
-              className="text-muted mb-3"
-              style={{ fontSize: '0.9rem', lineHeight: '1.5' }}
-            >
-              <strong>Date:</strong> {new Date(course.date).toLocaleDateString()}
+            <Card.Text className="text-muted small">
+              <i className="fa-solid fa-calendar-alt me-1"></i> {new Date(course.date).toLocaleDateString()}
             </Card.Text>
           )}
-          <div className="d-flex justify-content-between align-items-center">
-            <Button
-              variant="primary"
-              onClick={handleAddToCart}
-              style={{
-                borderRadius: '8px',
-                padding: '0.5rem 1.25rem',
-                backgroundColor: '#4a00e0',
-                border: 'none',
-                fontWeight: '500',
-              }}
-            >
-              Add to Cart
-            </Button>
-            <Button
-              variant="outline-secondary"
-              onClick={addToWishlist}
-              style={{
-                borderRadius: '8px',
-                padding: '0.5rem 1.25rem',
-                fontWeight: '500',
-              }}
-            >
-              <i className="fa-solid fa-heart"></i> Wishlist
-            </Button>
+          <div className="mt-3 d-flex justify-content-between align-items-center">
+            <OverlayTrigger placement="top" overlay={<Tooltip>Add Course to Cart</Tooltip>}>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleAddToCart}
+                style={{
+                  background: 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '0.5rem 1rem',
+                  fontWeight: '500',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'linear-gradient(135deg, #0056b3 0%, #003d82 100%)';
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                <i className="fa-solid fa-cart-plus me-2"></i> Add to Cart
+              </Button>
+            </OverlayTrigger>
+            <OverlayTrigger placement="top" overlay={<Tooltip>Add to Wishlist</Tooltip>}>
+              <Button
+                variant="outline-danger"
+                size="sm"
+                onClick={addToWishlist}
+                style={{
+                  borderRadius: '8px',
+                  padding: '0.5rem 1rem',
+                  fontWeight: '500',
+                  borderColor: '#dc3545',
+                  color: '#dc3545',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#dc3545';
+                  e.currentTarget.style.color = '#fff';
+                  e.currentTarget.style.transform = 'scale(1.05)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#dc3545';
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                <i className="fa-solid fa-heart me-2"></i> Wishlist
+              </Button>
+            </OverlayTrigger>
           </div>
         </Card.Body>
       </Card>
 
-      <Modal
-        show={show}
-        onHide={() => setShow(false)}
-        centered
-        size="lg"
-        style={{ borderRadius: '12px', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)' }}
-      >
-        <Modal.Header
-          closeButton
-          style={{
-            background: 'linear-gradient(135deg, #4a00e0 0%, #8e2de2 100%)', // Professional purple gradient
-            color: '#fff',
-            borderBottom: 'none',
-            borderRadius: '12px 12px 0 0',
-            padding: '1.5rem',
-          }}
-        >
+      <Modal show={show} onHide={() => setShow(false)} centered size="lg">
+        <Modal.Header className="bg-primary text-white border-0" style={{ borderRadius: '15px 15px 0 0' }}>
           <Modal.Title>
-            <i className="fa-solid fa-book me-2"></i> {course.title}
+            <i className="fa-solid fa-graduation-cap me-2"></i> {course.title}
           </Modal.Title>
+          <Button variant="link" className="text-white" onClick={() => setShow(false)}>
+            <i className="fa-solid fa-times"></i>
+          </Button>
         </Modal.Header>
-        <Modal.Body
-          className="p-4"
-          style={{ backgroundColor: '#f8f9ff', borderRadius: '0 0 12px 12px' }}
-        >
+        <Modal.Body className="bg-light p-4">
           <img
             src={course.image ? `${base_url}/uploads/${course.image}` : 'https://via.placeholder.com/150'}
             alt={course.title}
-            className="w-100 mb-4 rounded shadow-sm"
-            style={{ maxHeight: '300px', objectFit: 'cover' }}
+            className="w-100 rounded mb-4 shadow-sm"
+            style={{ maxHeight: '250px', objectFit: 'cover' }}
           />
-          <div className="mb-4">
-            <h5 className="fw-semibold" style={{ color: '#1a1a1a' }}>
-              <i className="fa-solid fa-info-circle me-2 text-primary"></i> Course Description
-            </h5>
-            <p style={{ fontSize: '1rem', color: '#333', lineHeight: '1.6' }}>
-              {course.description}
-            </p>
-          </div>
-          <div className="d-flex flex-column gap-3">
+          <h5 className="fw-semibold text-dark mb-3">
+            <i className="fa-solid fa-info-circle me-2 text-primary"></i> Course Details
+          </h5>
+          <p className="text-muted mb-4">{course.description}</p>
+          <div className="d-flex flex-column gap-2">
             {course.instructor && (
-              <p style={{ fontSize: '0.95rem', color: '#555' }}>
-                <i className="fa-solid fa-chalkboard-teacher me-2 text-danger"></i>
+              <p>
+                <i className="fa-solid fa-user-tie me-2 text-info"></i>
                 <strong>Instructor:</strong> {course.instructor}
               </p>
             )}
             {course.instructorPhone && (
-              <p style={{ fontSize: '0.95rem', color: '#555' }}>
+              <p>
                 <i className="fa-solid fa-phone me-2 text-success"></i>
                 <strong>Contact:</strong> {course.instructorPhone}
               </p>
             )}
             {course.date && (
-              <p style={{ fontSize: '0.95rem', color: '#555' }}>
-                <i className="fa-solid fa-calendar-alt me-2 text-info"></i>
+              <p>
+                <i className="fa-solid fa-calendar-alt me-2 text-primary"></i>
                 <strong>Date:</strong> {new Date(course.date).toLocaleDateString()}
               </p>
             )}
-            <p style={{ fontSize: '1.1rem', color: '#4a00e0', fontWeight: 'bold' }}>
-              <i className="fa-solid fa-dollar-sign me-2 text-warning"></i>
-              Price: <i class="fa-solid fa-indian-rupee-sign"></i>{course.price}
+            <p className="fw-bold text-success">
+              <i className="fa-solid fa-indian-rupee-sign me-2"></i>
+              <strong>Price:</strong> ₹{course.price}
             </p>
           </div>
           <Review courseId={course._id} />
         </Modal.Body>
-        <Modal.Footer
-          style={{
-            backgroundColor: '#f8f9ff',
-            borderTop: '1px solid #e9ecef',
-            padding: '1rem 1.5rem',
-          }}
-        >
+        <Modal.Footer className="bg-light border-0">
           <Button
-            variant="secondary"
+            variant="outline-secondary"
             onClick={() => setShow(false)}
             style={{
+              background: 'linear-gradient(135deg, #6c757d 0%, #495057 100%)',
+              border: 'none',
               borderRadius: '8px',
               padding: '0.5rem 1.25rem',
-              background: 'linear-gradient(135deg, #6c757d 0%, #495057 100%)', // Gray gradient for Close
-              border: 'none',
               color: '#fff',
               fontWeight: '500',
               transition: 'all 0.3s ease',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.9')}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, #495057 0%, #343a40 100%)';
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, #6c757d 0%, #495057 100%)';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
           >
             <i className="fa-solid fa-times me-2"></i> Close
           </Button>
@@ -224,16 +218,22 @@ function CourseCard({ course }) {
             variant="primary"
             onClick={handleAddToCart}
             style={{
+              background: 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)',
+              border: 'none',
               borderRadius: '8px',
               padding: '0.5rem 1.25rem',
-              background: 'linear-gradient(135deg, #4a00e0 0%, #8e2de2 100%)', // Purple gradient for Enroll
-              border: 'none',
               color: '#fff',
               fontWeight: '500',
               transition: 'all 0.3s ease',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.9')}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, #0056b3 0%, #003d82 100%)';
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'linear-gradient(135deg, #007bff 0%, #0056b3 100%)';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
           >
             <i className="fa-solid fa-cart-plus me-2"></i> Enroll Now
           </Button>

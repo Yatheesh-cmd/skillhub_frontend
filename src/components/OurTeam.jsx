@@ -1,18 +1,21 @@
-// src/components/OurTeam.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Row, Col, Card, ListGroup, Badge, Accordion } from 'react-bootstrap';
+import './OurTeam.css';
 
 function OurTeam() {
-  // Replace 'wFxBqeK94Fk' with your actual YouTube video ID
-  const videoId = 'wFxBqeK94Fk'; // Placeholder ID (replace with your SkillHub video)
+  const videoId = 'wFxBqeK94Fk';
   const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=0&controls=1&rel=0`;
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top when component mounts
+  }, []); // Empty dependency array runs only on mount
 
   const teamMembers = [
     {
       name: 'Dr. John Doe',
       role: 'Lead Educator & Admin',
       bio: 'Oversees course content creation and admin tools for SkillHub.',
-      icon: 'fa-solid fa-chalkboard-teacher', // Font Awesome icon (requires Font Awesome)
+      icon: 'fa-solid fa-chalkboard-teacher',
     },
     {
       name: 'Jane Smith',
@@ -34,114 +37,223 @@ function OurTeam() {
     },
   ];
 
+  const milestones = [
+    {
+      year: '1',
+      title: 'SkillHub Founded',
+      desc: 'Launched as a platform to bridge online course purchases with offline learning.',
+    },
+    {
+      year: '2',
+      title: 'First Institute Partnership',
+      desc: 'Partnered with leading institutes to deliver high-quality offline classes.',
+    },
+    {
+      year: '3',
+      title: '1000+ Courses Added',
+      desc: 'Expanded our catalog to over 1000 expertly curated courses.',
+    },
+    {
+      year: '4',
+      title: 'Global Reach Achieved',
+      desc: 'Extended services to learners and institutes worldwide.',
+    },
+  ];
+
   return (
-    <Container fluid className="py-5" style={{ backgroundColor: '#f4f7fc', minHeight: '100vh' }}>
-      {/* Header Section */}
+    <Container fluid className="py-5" style={{ backgroundColor: '#f8fafc', minHeight: '100vh' }}>
       <Row className="text-center mb-5">
         <Col>
-          <h1 className="fw-bold" style={{ fontSize: '2.5rem', color: '#1a1a1a' }}>
+          <h1
+            className="fw-bold"
+            style={{
+              fontSize: '2.75rem',
+              color: '#1f2937',
+              letterSpacing: '-0.025em',
+            }}
+          >
             Meet the SkillHub Team
           </h1>
-          <p className="text-muted" style={{ fontSize: '1.2rem' }}>
+          <p
+            className="text-muted"
+            style={{
+              fontSize: '1.25rem',
+              maxWidth: '700px',
+              margin: '0 auto',
+              lineHeight: '1.6',
+            }}
+          >
             Empowering education through a seamless course purchasing platform for offline institute learning.
           </p>
         </Col>
       </Row>
 
-      {/* Main Content */}
-      <Row className="justify-content-center">
-        {/* Video Section (Left Side) */}
+      <Row className="justify-content-center gx-4">
         <Col md={5} className="mb-4">
-          <Card className="border-0 shadow-sm" style={{ borderRadius: '16px' }}>
+          <Card
+            className="border-0 shadow-lg"
+            style={{ borderRadius: '20px', backgroundColor: '#ffffff' }}
+          >
             <Card.Body className="p-4">
-              <h3 className="fw-semibold mb-3 text-center" style={{ color: '#4a00e0' }}>
-                SkillHub in Action
-              </h3>
-              <div className="ratio ratio-16x9">
+              <div className="ratio ratio-16x9 mb-4" style={{ borderRadius: '12px', overflow: 'hidden' }}>
                 <iframe
                   src={embedUrl}
-                  title="SkillHub Team Video"
+                  title="SkillHub Milestones Video"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
+                  style={{ borderRadius: '12px' }}
                 ></iframe>
+              </div>
+              <h3
+                className="fw-semibold mb-4 text-center"
+                style={{ color: '#4f46e5', fontSize: '1.75rem' }}
+              >
+                SkillHub Milestones
+              </h3>
+              <div className="timeline">
+                {milestones.map((milestone, idx) => (
+                  <div key={idx} className="timeline-item">
+                    <div className="timeline-year">
+                      <span
+                        style={{
+                          fontSize: '1.25rem',
+                          fontWeight: 'bold',
+                          color: '#ffffff',
+                        }}
+                      >
+                        {milestone.year}
+                      </span>
+                    </div>
+                    <div className="timeline-content">
+                      <h5
+                        style={{
+                          fontSize: '1.25rem',
+                          color: '#1f2937',
+                          marginBottom: '0.5rem',
+                        }}
+                      >
+                        {milestone.title}
+                      </h5>
+                      <p
+                        style={{
+                          fontSize: '1rem',
+                          color: '#6b7280',
+                          lineHeight: '1.5',
+                        }}
+                      >
+                        {milestone.desc}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </Card.Body>
           </Card>
         </Col>
 
-        {/* Team and SkillHub Info (Right Side) */}
         <Col md={7} className="mb-4">
-          <Card className="border-0 shadow-sm" style={{ borderRadius: '16px' }}>
-            <Card.Body className="p-4">
-              {/* About SkillHub */}
-              <h3 className="fw-semibold mb-3" style={{ color: '#4a00e0' }}>
+          <Card
+            className="border-0 shadow-lg"
+            style={{ borderRadius: '20px', backgroundColor: '#ffffff' }}
+          >
+            <Card.Body className="p-5">
+              <h3
+                className="fw-semibold mb-4"
+                style={{ color: '#4f46e5', fontSize: '1.75rem' }}
+              >
                 About SkillHub
               </h3>
-              <Card.Text className="mb-4" style={{ fontSize: '1.1rem', lineHeight: '1.6' }}>
-                SkillHub is a dedicated platform for purchasing courses that support offline institute learning. We bridge the gap between online purchasing and in-person education, offering a robust system for both admins and users. Our team ensures that every course is carefully curated to enhance your skills, with all classes conducted offline at our partner institutes.
+              <Card.Text
+                style={{
+                  fontSize: '1.125rem',
+                  lineHeight: '1.75',
+                  color: '#6b7280',
+                }}
+              >
+                SkillHub is a dedicated platform for purchasing courses that support offline institute learning.
               </Card.Text>
 
-              {/* Admin-Based Features */}
-              <Accordion className="mb-4">
-                <Accordion.Item eventKey="0">
+              <Accordion className="my-4" defaultActiveKey="0">
+                <Accordion.Item eventKey="0" style={{ border: 'none' }}>
                   <Accordion.Header>
-                    <h5 className="fw-bold mb-0" style={{ color: '#1a1a1a' }}>
+                    <h5
+                      className="fw-bold mb-0"
+                      style={{ color: '#1f2937', fontSize: '1.5rem' }}
+                    >
                       Admin-Based Course Management
                     </h5>
                   </Accordion.Header>
                   <Accordion.Body>
-                    <p style={{ fontSize: '1rem' }}>
+                    <p style={{ fontSize: '1rem', color: '#6b7280' }}>
                       Our admin team plays a critical role in maintaining SkillHub’s course offerings:
                     </p>
                     <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        <strong>Course Uploads:</strong> Admins add new courses with detailed descriptions, pricing, and offline class schedules.
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Content Approval:</strong> Ensuring all materials meet institute standards before going live.
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Dashboard Tools:</strong> Admins use advanced tools to track course purchases, manage inventory, and update listings.
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Offline Coordination:</strong> Syncing purchased courses with institute schedules for seamless offline delivery.
-                      </ListGroup.Item>
+                      {[
+                        'Course Uploads: Admins add new courses with detailed descriptions.',
+                        'Content Approval: Ensuring all materials meet institute standards.',
+                        'Dashboard Tools: Admins track purchases and manage inventory.',
+                        'Offline Coordination: Syncing courses with institute schedules.',
+                      ].map((item, idx) => (
+                        <ListGroup.Item
+                          key={idx}
+                          style={{
+                            border: 'none',
+                            padding: '0.75rem 0',
+                            color: '#6b7280',
+                            fontSize: '1rem',
+                          }}
+                        >
+                          <strong style={{ color: '#1f2937' }}>{item.split(':')[0]}:</strong>{' '}
+                          {item.split(':')[1]}
+                        </ListGroup.Item>
+                      ))}
                     </ListGroup>
                   </Accordion.Body>
                 </Accordion.Item>
 
-                {/* User-Based Features */}
-                <Accordion.Item eventKey="1">
+                <Accordion.Item eventKey="1" style={{ border: 'none' }}>
                   <Accordion.Header>
-                    <h5 className="fw-bold mb-0" style={{ color: '#1a1a1a' }}>
+                    <h5
+                      className="fw-bold mb-0"
+                      style={{ color: '#1f2937', fontSize: '1.5rem' }}
+                    >
                       User-Based Course Purchasing
                     </h5>
                   </Accordion.Header>
                   <Accordion.Body>
-                    <p style={{ fontSize: '1rem' }}>
+                    <p style={{ fontSize: '1rem', color: '#6b7280' }}>
                       SkillHub empowers users with a simple yet powerful purchasing experience:
                     </p>
                     <ListGroup variant="flush">
-                      <ListGroup.Item>
-                        <strong>Course Selection:</strong> Browse a wide range of courses tailored for offline learning.
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Cart System:</strong> Add courses to your cart, adjust quantities, and proceed to payment effortlessly.
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Secure Checkout:</strong> Complete purchases with confidence using our payment gateway.
-                      </ListGroup.Item>
-                      <ListGroup.Item>
-                        <strong>Offline Access:</strong> Receive course materials and schedules for in-person classes at our institutes.
-                      </ListGroup.Item>
+                      {[
+                        'Course Selection: Browse courses tailored for offline learning.',
+                        'Cart System: Add courses and proceed to payment effortlessly.',
+                        'Secure Checkout: Complete purchases with confidence.',
+                        'Offline Access: Receive materials and schedules for classes.',
+                      ].map((item, idx) => (
+                        <ListGroup.Item
+                          key={idx}
+                          style={{
+                            border: 'none',
+                            padding: '0.75rem 0',
+                            color: '#6b7280',
+                            fontSize: '1rem',
+                          }}
+                        >
+                          <strong style={{ color: '#1f2937' }}>{item.split(':')[0]}:</strong>{' '}
+                          {item.split(':')[1]}
+                        </ListGroup.Item>
+                      ))}
                     </ListGroup>
                   </Accordion.Body>
                 </Accordion.Item>
               </Accordion>
 
-              {/* Team Members */}
-              <h3 className="fw-semibold mb-3" style={{ color: '#4a00e0' }}>
+              <h3
+                className="fw-semibold mb-4"
+                style={{ color: '#4f46e5', fontSize: '1.75rem' }}
+              >
                 Our Professional Team
               </h3>
               <ListGroup variant="flush">
@@ -153,12 +265,30 @@ function OurTeam() {
                   >
                     <i
                       className={member.icon}
-                      style={{ fontSize: '2rem', marginRight: '1rem', color: '#4a00e0' }}
+                      style={{
+                        fontSize: '2rem',
+                        marginRight: '1.5rem',
+                        color: '#4f46e5',
+                      }}
                     ></i>
                     <div>
-                      <h5 className="mb-1 fw-bold">{member.name}</h5>
-                      <Badge bg="primary" className="mb-1">{member.role}</Badge>
-                      <p className="mb-0 text-muted" style={{ fontSize: '0.95rem' }}>
+                      <h5
+                        className="mb-1 fw-bold"
+                        style={{ color: '#1f2937', fontSize: '1.25rem' }}
+                      >
+                        {member.name}
+                      </h5>
+                      <Badge
+                        bg="primary"
+                        className="mb-2"
+                        style={{ fontSize: '0.9rem', padding: '0.5em 1em' }}
+                      >
+                        {member.role}
+                      </Badge>
+                      <p
+                        className="mb-0"
+                        style={{ fontSize: '1rem', color: '#6b7280', lineHeight: '1.5' }}
+                      >
                         {member.bio}
                       </p>
                     </div>

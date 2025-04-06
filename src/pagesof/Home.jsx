@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom'; // Add useLocation
 import { sampleCoursesApi } from '../services/api';
 import Footer from '../components/Footer.jsx';
 import { Modal, Button, Card, Container, Row, Col } from 'react-bootstrap';
 import './Home.css';
 
-// Home component: Main landing page for SkillSphere
 function Home() {
   const [loginStatus, setLoginStatus] = useState(false);
   const [sampleCourses, setSampleCourses] = useState([]);
@@ -14,14 +13,15 @@ function Home() {
   const [showCoursesModal, setShowCoursesModal] = useState(false);
   const [showAimsModal, setShowAimsModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
+  const location = useLocation(); // Add this to track route changes
 
-  // Fetch sample courses and check login status on component mount
+  // Fetch sample courses, check login status, and scroll to top on mount
   useEffect(() => {
     fetchSampleCourses();
     setLoginStatus(!!sessionStorage.getItem('token'));
-  }, []);
+    window.scrollTo(0, 0); // Scroll to top when Home mounts
+  }, [location.pathname]); // Trigger on route change
 
-  // Asynchronous function to retrieve sample courses from API
   const fetchSampleCourses = async () => {
     try {
       const response = await sampleCoursesApi();
@@ -34,7 +34,6 @@ function Home() {
     }
   };
 
-  // Modal control handlers
   const toggleModal = (setter) => (value) => setter(value);
   const handleLessonsModal = toggleModal(setShowLessonsModal);
   const handleSuccessModal = toggleModal(setShowSuccessModal);
@@ -47,50 +46,34 @@ function Home() {
     <div>
       {/* Hero Section */}
       <div className="container-fluid position-relative overflow-hidden hero-section">
-  <div className="row align-items-center min-vh-100 py-5">
-    
-    {/* Left Content */}
-    <div className="col-lg-6 col-md-8 mx-auto text-light py-5">
-      <h1 className="display-4 fw-bold animate-fade-in">
-        Elevate Your Expertise with <span className="highlight">SkillHub</span>
-      </h1>
-      <p className="lead mb-4">
-        Gain advanced skills through expertly designed courses in AI, Web3, Cloud Computing, 
-        and more. Learn from industry leaders and join a global professional network. SkillHub offers tailored learning paths to help you achieve your goals. 
-        Access cutting-edge resources, hands-on projects, and a supportive community designed 
-        to empower your success.
-      </p>
-
-      
-      <div className="d-flex gap-4 justify-content-start">
-        <Link
-          to={loginStatus ? '/userdash' : '/auth'}
-          className="btn btn-primary custom-btn"
-        >
-          Begin Your Journey
-        </Link>
-
-        <Link
-          to="/courses"
-          className="btn btn-outline-light custom-btn"
-        >
-          Explore Courses
-        </Link>
+        <div className="row align-items-center min-vh-100 py-5">
+          <div className="col-lg-6 col-md-8 mx-auto text-light py-5">
+            <h1 className="display-4 fw-bold animate-fade-in">
+              Elevate Your Expertise with <span className="highlight">SkillHub</span>
+            </h1>
+            <p className="lead mb-4">
+              Gain advanced skills through expertly designed courses in AI, Web3, Cloud Computing, 
+              and more. Learn from industry leaders and join a global professional network.
+            </p>
+            <div className="d-flex gap-4 justify-content-start">
+              <Link to={loginStatus ? '/userdash' : '/auth'} className="btn btn-primary custom-btn">
+                Begin Your Journey
+              </Link>
+              <Link to="/courses" className="btn btn-outline-light custom-btn">
+                Explore Courses
+              </Link>
+            </div>
+          </div>
+          <div className="col-lg-5 col-md-4 d-flex justify-content-center align-items-center">
+            <img
+              src="https://png.pngtree.com/png-vector/20240531/ourmid/pngtree-flat-design-of-soft-skills-concept-png-image_12580304.png"
+              alt="SkillHub Technology Visualization"
+              className="professional-image animate-float"
+              width={'500px'}
+            />
+          </div>
+        </div>
       </div>
-    </div>
-
-    {/* Right Image */}
-    <div className="col-lg-5 col-md-4 d-flex justify-content-center align-items-center">
-      <img
-        src="https://png.pngtree.com/png-vector/20240531/ourmid/pngtree-flat-design-of-soft-skills-concept-png-image_12580304.png"
-        alt="SkillHub Technology Visualization"
-        className=" professional-image animate-float"
-        width={'500px'}
-      />
-    </div>
-
-  </div>
-</div>
 
       {/* Trending Tech Courses Section */}
       <Container fluid className="p-5 my-5" style={{ background: '#f9fafc' }}>
@@ -254,17 +237,14 @@ function Home() {
                 transition: 'transform 0.3s ease',
               }}
             >
-              ok
+              OK
             </Button>
           </Modal.Footer>
         </Modal>
       </Container>
 
       {/* Why SkillSphere Section */}
-      <div
-        className="container-fluid py-5 text-light text-center"
-        style={{ background: '#1a1a1a' }}
-      >
+      <div className="container-fluid py-5 text-light text-center" style={{ background: '#1a1a1a' }}>
         <h2
           className="mb-4 fw-bold"
           style={{ fontSize: '2.5rem', color: '#ffffff', letterSpacing: '0.5px' }}
@@ -300,7 +280,7 @@ function Home() {
           className="lead mx-auto mb-5"
           style={{ maxWidth: '750px', color: '#4a5568', fontSize: '1.15rem', lineHeight: '1.7' }}
         >
-          Become part of a thriving community driving the future of technology. Collaborate on impactful projects, network with peers, and gain insights from industry leaders to propel your career forward.
+          Become part of a thriving community driving the future of technology.
         </p>
         <div className="mt-4 d-flex justify-content-center gap-3">
           <span
@@ -339,7 +319,7 @@ function Home() {
         </Modal.Header>
         <Modal.Body style={{ background: '#f9fafc', color: '#1a1a1a' }}>
           <p>
-            SkillSphere learners have completed over 5 million lessons, reflecting our community’s commitment to mastering emerging technologies like AI and Web3.
+            SkillSphere learners have completed over 5 million lessons, reflecting our community’s commitment.
           </p>
           <ul>
             <li>Hands-on projects completed: 1.2M+</li>
@@ -364,7 +344,7 @@ function Home() {
         </Modal.Header>
         <Modal.Body style={{ background: '#f9fafc', color: '#1a1a1a' }}>
           <p>
-            Our learners achieve a 95% success rate, securing jobs, launching startups, and mastering new skills with SkillSphere’s comprehensive support.
+            Our learners achieve a 95% success rate, securing jobs and mastering new skills.
           </p>
           <ul>
             <li>Job placements: 85% within 6 months</li>
@@ -470,13 +450,13 @@ function Home() {
               className="lead"
               style={{ color: '#4a5568', fontSize: '1.15rem', lineHeight: '1.7' }}
             >
-              SkillSphere is a premier e-learning platform dedicated to equipping professionals with skills in cutting-edge technologies. Since our founding in 2020, we’ve cultivated a global community of over 100,000 learners, offering courses in AI, Web3, Cloud Computing, Cybersecurity, and more.
+              SkillSphere is a premier e-learning platform dedicated to equipping professionals with skills in cutting-edge technologies.
             </p>
             <p
               className="mt-3"
               style={{ color: '#4a5568', fontSize: '1.1rem', lineHeight: '1.7' }}
             >
-              Collaborating with industry giants like Google, AWS, and Microsoft, we ensure our curriculum reflects the latest advancements. Our practical approach—featuring hands-on projects, interactive labs, and expert mentorship—prepares learners for real-world success, regardless of experience level.
+              Collaborating with industry giants like Google, AWS, and Microsoft, we ensure our curriculum reflects the latest advancements.
             </p>
           </Col>
         </Row>
@@ -519,7 +499,7 @@ function Home() {
                   Our Courses
                 </Card.Title>
                 <Card.Text style={{ color: '#4a5568', lineHeight: '1.6' }}>
-                  Expert-designed courses in AI, Web3, Cloud Computing, and Cybersecurity with practical applications.
+                  Expert-designed courses in AI, Web3, Cloud Computing, and Cybersecurity.
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -572,21 +552,13 @@ function Home() {
           </Modal.Header>
           <Modal.Body style={{ background: '#f9fafc', color: '#1a1a1a' }}>
             <p>
-              SkillSphere offers professionally curated courses to build expertise in high-demand fields, blending theory with hands-on practice.
+              SkillSphere offers professionally curated courses to build expertise in high-demand fields.
             </p>
             <ul>
-              <li>
-                <strong>AI & Machine Learning:</strong> Create intelligent systems.
-              </li>
-              <li>
-                <strong>Web3 Development:</strong> Dive into blockchain and DApps.
-              </li>
-              <li>
-                <strong>Cloud Architecture:</strong> Architect scalable solutions.
-              </li>
-              <li>
-                <strong>Cybersecurity:</strong> Enhance security with ethical hacking.
-              </li>
+              <li><strong>AI & Machine Learning:</strong> Create intelligent systems.</li>
+              <li><strong>Web3 Development:</strong> Dive into blockchain and DApps.</li>
+              <li><strong>Cloud Architecture:</strong> Architect scalable solutions.</li>
+              <li><strong>Cybersecurity:</strong> Enhance security with ethical hacking.</li>
             </ul>
           </Modal.Body>
           <Modal.Footer style={{ background: '#f9fafc' }}>
@@ -606,25 +578,24 @@ function Home() {
           </Modal.Header>
           <Modal.Body style={{ background: '#f9fafc', color: '#1a1a1a' }}>
             <p>
-              SkillSphere strives to deliver accessible, relevant, and impactful education to professionals worldwide.
+              SkillSphere strives to deliver accessible, relevant, and impactful education.
             </p>
             <ul>
-              <li>
-                <strong>Accessibility:</strong> Offer affordable learning globally.
-              </li>
-              <li>
-                <strong>Relevance:</strong> Keep pace with industry advancements.
-              </li>
-              <li>
-                <strong>Impact:</strong> Equip learners for real-world challenges.
-              </li>
+              <li><strong>Accessibility:</strong> Offer affordable learning globally.</li>
+              <li><strong>Relevance:</strong> Keep pace with industry advancements.</li>
+              <li><strong>Impact:</strong> Equip learners for real-world challenges.</li>
             </ul>
           </Modal.Body>
           <Modal.Footer style={{ background: '#f9fafc' }}>
             <Button variant="secondary" onClick={() => handleAimsModal(false)}>
               Close
             </Button>
-            <Link to="/about" className="btn" style={{ background: '#6B48FF', color: '#fff' }}>
+            <Link
+              to="/about"
+              className="btn"
+              style={{ background: '#6B48FF', color: '#fff' }}
+              onClick={() => window.scrollTo(0, 0)} // Scroll to top on click
+            >
               Learn More
             </Link>
           </Modal.Footer>

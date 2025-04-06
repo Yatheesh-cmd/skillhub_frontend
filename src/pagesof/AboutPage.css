@@ -1,0 +1,42 @@
+.marquee {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+  }
+  
+  .marquee-content {
+    display: inline-flex;
+    animation: marquee 25s linear infinite;
+  }
+  
+  .testimonial-item,
+  .course-item {
+    min-width: 250px;
+    text-align: center;
+    padding: 15px;
+  }
+  
+  .course-item img {
+    transition: transform 0.3s ease;
+  }
+  
+  .course-item:hover img {
+    transform: scale(1.1);
+  }
+  
+  @keyframes marquee {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .marquee-content:hover {
+    animation-play-state: paused;
+  }
+  
+  .about-page img {
+    transition: transform 0.3s ease;
+  }

@@ -13,6 +13,8 @@ import OurTeam from './components/OurTeam.jsx';
 import TrackOrder from './components/TrackOrder.jsx';
 import AdminOrders from './components/AdminOrders.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
+import LearnMorePage from './components/LearnMorePage.jsx';
 
 function App() {
   const { auth } = useContext(authContext);
@@ -29,6 +31,7 @@ function App() {
         <Route path="/team" element={<OurTeam />} />
         <Route path="/track-order" element={auth ? <TrackOrder /> : <Auth />} />
         <Route path="/admin-orders" element={auth ? <AdminOrders /> : <Auth />} />
+        <Route path='/learn'  element={<LearnMorePage/>}/>
       </Routes>
       <ToastContainer />
     </>

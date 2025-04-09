@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom'; // Add useLocation
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { sampleCoursesApi } from '../services/api';
 import Footer from '../components/Footer.jsx';
 import { Modal, Button, Card, Container, Row, Col } from 'react-bootstrap';
@@ -13,14 +13,21 @@ function Home() {
   const [showCoursesModal, setShowCoursesModal] = useState(false);
   const [showAimsModal, setShowAimsModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState(null);
-  const location = useLocation(); // Add this to track route changes
+  const location = useLocation();
+  const videoRef = useRef(null); // Ref for video control
 
-  // Fetch sample courses, check login status, and scroll to top on mount
   useEffect(() => {
     fetchSampleCourses();
     setLoginStatus(!!sessionStorage.getItem('token'));
-    window.scrollTo(0, 0); // Scroll to top when Home mounts
-  }, [location.pathname]); // Trigger on route change
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Ensure video plays on mount and after route change
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        console.log("Autoplay failed:", error);
+      });
+    }
+  }, [location.pathname]);
 
   const fetchSampleCourses = async () => {
     try {
@@ -43,38 +50,213 @@ function Home() {
   const handleCourseModalClose = () => setSelectedCourse(null);
 
   return (
-    <div>
-      {/* Hero Section */}
-      <div className="container-fluid position-relative overflow-hidden hero-section">
-        <div className="row align-items-center min-vh-100 py-5">
-          <div className="col-lg-6 col-md-8 mx-auto text-light py-5">
-            <h1 className="display-4 fw-bold animate-fade-in">
-              Elevate Your Expertise with <span className="highlight">SkillHub</span>
-            </h1>
-            <p className="lead mb-4">
-              Gain advanced skills through expertly designed courses in AI, Web3, Cloud Computing, 
-              and more. Learn from industry leaders and join a global professional network.
-            </p>
-            <div className="d-flex gap-4 justify-content-start">
-              <Link to={loginStatus ? '/userdash' : '/auth'} className="btn btn-primary custom-btn">
-                Begin Your Journey
-              </Link>
-              <Link to="/courses" className="btn btn-outline-light custom-btn">
-                Explore Courses
-              </Link>
-            </div>
-          </div>
-          <div className="col-lg-5 col-md-4 d-flex justify-content-center align-items-center">
-            <img
-              src="https://png.pngtree.com/png-vector/20240531/ourmid/pngtree-flat-design-of-soft-skills-concept-png-image_12580304.png"
-              alt="SkillHub Technology Visualization"
-              className="professional-image animate-float"
-              width={'500px'}
-            />
-          </div>
-        </div>
-      </div>
+    <div className="home-wrapper">
+      {/* Modernized Hero Section with Professional Text Colors */}
+      <section className="hero-section position-relative overflow-hidden">
+  {/* Enhanced Gradient Overlay */}
+  <div
+    className="hero-background"
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      background: 'linear-gradient(140deg, rgba(20, 43, 70, 0.85), rgba(27, 27, 27, 0.18))',
+      zIndex: 1, // Adjusted from 0.6 to 1 to layer properly
+      opacity: 0.95,
+      animation: 'gradientShift 15s ease infinite',
+    }}
+  ></div>
 
+  {/* Background Video with Ref - Updated for Autoplay */}
+  <video
+    ref={videoRef}
+    autoPlay={true} // Explicitly set to true
+    muted={true}   // Explicitly set to true for autoplay compatibility
+    loop={true}    // Explicitly set to true
+    playsInline={true} // Explicitly set to true for mobile compatibility
+    className="hero-video"
+    style={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      zIndex: 0, // Kept at 0 to stay behind content
+      filter: 'brightness(0.7) contrast(1.1)',
+    }}
+  >
+    <source
+      src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4"
+      type="video/mp4"
+    />
+    Your browser does not support the video tag.
+  </video>
+
+  <Container fluid className="position-relative" style={{ zIndex: 2 }}>
+    <Row className="align-items-center min-vh-100 py-5">
+      <Col lg={8} md={10} className="py-5 px-4">
+        {/* Modern Headline with Professional Colors */}
+        <h1
+          className="display-1 fw-bolder animate__animated animate__zoomIn"
+          style={{
+            fontSize: '4.5rem',
+            letterSpacing: '-2px',
+            lineHeight: '1.05',
+            textTransform: 'uppercase',
+            color: '#F5F7FA',
+            position: 'relative', // Added for z-index context
+            zIndex: 2, // Explicitly matches Container
+          }}
+        >
+          Master the Future with{' '}
+          <span
+            style={{
+              background: 'linear-gradient(90deg, #D1D9E6, #4A90E2)',
+              WebkitBackgroundClip: 'text',
+              color: 'transparent',
+              textShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+            }}
+          >
+            SkillHub
+          </span>
+        </h1>
+        <p
+          className="lead mb-5 animate__animated animate__fadeInUp animate__delay-1s"
+          style={{
+            fontSize: '1.3rem',
+            fontWeight: 300,
+            color: '#CED4DA',
+            maxWidth: '700px',
+            position: 'relative', // Added for z-index context
+            zIndex: 2, // Explicitly matches Container
+          }}
+        >
+          Transform your career with next-gen skills in AI, Web3, and Cloud Computing. Join a global network of innovators and unlock limitless potential. Join a global community of learners and pioneers shaping the future of technology.
+        </p>
+
+        {/* Dynamic Buttons with Updated Colors */}
+        <div className="d-flex gap-4 animate__animated animate__fadeIn animate__delay-2s" style={{ marginTop: '2rem' }}>
+          <Link
+            to={loginStatus ? '/userdash' : '/auth'}
+            className="btn btn-primary custom-btn px-5 py-2"
+            style={{
+              borderRadius: '15px',
+              fontSize: '1.2rem',
+              fontWeight: '700',
+              background: 'linear-gradient(45deg, #1E3A8A, #3B82F6)',
+              border: 'none',
+              boxShadow: '0 5px 15px rgba(59, 130, 246, 0.4)',
+              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+              color: '#FFFFFF',
+              paddingTop: '0.5rem',
+              paddingBottom: '0.5rem',
+            }}
+            onMouseOver={(e) => {
+              e.target.style.transform = 'translateY(-5px)';
+              e.target.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.6)';
+            }}
+            onMouseOut={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = '0 5px 15px rgba(59, 130, 246, 0.4)';
+            }}
+          >
+            Start to Explore
+          </Link>
+          <Link
+            to="/courses"
+            className="btn btn-outline-light custom-btn px-5 py-2"
+            style={{
+              borderRadius: '15px',
+              fontSize: '1.2rem',
+              fontWeight: '700',
+              borderWidth: '3px',
+              transition: 'all 0.3s ease',
+              color: '#D1D5DB',
+              borderColor: '#D1D5DB',
+              background: 'transparent',
+              paddingTop: '0.5rem',
+              paddingBottom: '0.5rem',
+            }}
+            onMouseOver={(e) => {
+              e.target.style.background = 'linear-gradient(45deg, #3B82F6, #10B981)';
+              e.target.style.borderColor = '#3B82F6';
+              e.target.style.color = '#FFFFFF';
+            }}
+            onMouseOut={(e) => {
+              e.target.style.background = 'transparent';
+              e.target.style.borderColor = '#D1D5DB';
+              e.target.style.color = '#D1D5DB';
+            }}
+          >
+            View Courses
+          </Link>
+        </div>
+
+        {/* Updated Stats with Icons */}
+        <div className="stats mt-5 animate__animated animate__fadeIn animate__delay-3s">
+          <Row className="text-center">
+            <Col xs={4}>
+              <div className="d-flex justify-content-center align-items-center">
+                <i className="bi bi-people-fill me-2" style={{ fontSize: '2rem', color: '#F5F7FA' }}></i>
+                <h3 className="fw-bold" style={{ fontSize: '2.5rem', color: '#F5F7FA' }}>
+                  10K+
+                </h3>
+              </div>
+              <p style={{ color: '#ADB5BD', fontSize: '1rem' }}>Learners</p>
+            </Col>
+            <Col xs={4}>
+              <div className="d-flex justify-content-center align-items-center">
+                <i className="bi bi-book-fill me-2" style={{ fontSize: '2rem', color: '#F5F7FA' }}></i>
+                <h3 className="fw-bold" style={{ fontSize: '2.5rem', color: '#F5F7FA' }}>
+                  500+
+                </h3>
+              </div>
+              <p style={{ color: '#ADB5BD', fontSize: '1rem' }}>Courses</p>
+            </Col>
+            <Col xs={4}>
+              <div className="d-flex justify-content-center align-items-center">
+                <i className="bi bi-trophy-fill me-2" style={{ fontSize: '2rem', color: '#F5F7FA' }}></i>
+                <h3 className="fw-bold" style={{ fontSize: '2.5rem', color: '#F5F7FA' }}>
+                  95%
+                </h3>
+              </div>
+              <p style={{ color: '#ADB5BD', fontSize: '1rem' }}>Success</p>
+            </Col>
+          </Row>
+        </div>
+      </Col>
+    </Row>
+
+    {/* Floating CTA */}
+    <div
+      className="floating-cta position-fixed"
+      style={{ bottom: '40px', right: '40px', zIndex: 10 }}
+    >
+      <Link
+        to={'/learn'}
+        className="btn btn-warning rounded-circle shadow-lg animate__animated animate__pulse animate__infinite"
+        style={{
+          width: '70px',
+          height: '70px',
+          fontSize: '1.8rem',
+          background: 'linear-gradient(45deg, #ffca28, #ffeb3b)',
+          border: 'none',
+          transition: 'transform 0.3s ease',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        onMouseOver={(e) => (e.target.style.transform = 'scale(1.15)')}
+        onMouseOut={(e) => (e.target.style.transform = 'scale(1)')}
+      >
+        <i className="bi bi-rocket-takeoff"></i>
+      </Link>
+    </div>
+  </Container>
+</section>
       {/* Trending Tech Courses Section */}
       <Container fluid className="p-5 my-5" style={{ background: '#f9fafc' }}>
         <h3
@@ -202,7 +384,7 @@ function Home() {
             <p>{selectedCourse?.description || 'Develop cutting-edge skills in this course.'}</p>
             <ul className="list-unstyled">
               <li>
-                <strong>Duration:</strong> {selectedCourse?.duration || '6 month'}
+                <strong>Duration:</strong> {selectedCourse?.duration || '6 months'}
               </li>
               <li>
                 <strong>Level:</strong> {selectedCourse?.level || 'Intermediate'}
@@ -269,101 +451,73 @@ function Home() {
       </div>
 
       {/* Community Section */}
-      <div className="container-fluid py-5 text-center" style={{ background: '#ffffff' }}>
-        <h2
-          className="fw-bold mb-4"
-          style={{ fontSize: '2.5rem', color: '#1a1a1a', letterSpacing: '0.5px' }}
-        >
-          Join 100,000+ Innovators Worldwide
-        </h2>
-        <p
-          className="lead mx-auto mb-5"
-          style={{ maxWidth: '750px', color: '#4a5568', fontSize: '1.15rem', lineHeight: '1.7' }}
-        >
-          Become part of a thriving community driving the future of technology.
+      <section className="community-section py-5 text-center">
+        <h2 className="fw-bold mb-4 section-title">Join 100,000+ Innovators Worldwide</h2>
+        <p className="lead mx-auto mb-5">
+          Step into a dynamic global community of over 100,000 innovators, where collaboration and cutting-edge ideas fuel technological progress. At SkillSphere, you’re not just a learner—you’re part of a movement shaping the future of industries like artificial intelligence, blockchain, and cloud infrastructure. Connect with peers, mentors, and gain access to a network that supports your growth and amplifies your impact.
         </p>
-        <div className="mt-4 d-flex justify-content-center gap-3">
-          <span
-            onClick={() => handleLessonsModal(true)}
-            style={{
-              padding: '12px 25px',
-              background: '#6B48FF',
-              color: '#fff',
-              borderRadius: '12px',
-              cursor: 'pointer',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-            }}
-          >
+        <div className="d-flex justify-content-center gap-3">
+          <span className="stat-box" onClick={() => handleLessonsModal(true)}>
             5M+ Lessons Completed
           </span>
-          <span
-            onClick={() => handleSuccessModal(true)}
-            style={{
-              padding: '12px 25px',
-              background: '#00DDEB',
-              color: '#fff',
-              borderRadius: '12px',
-              cursor: 'pointer',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-            }}
-          >
+          <span className="stat-box" onClick={() => handleSuccessModal(true)}>
             95% Success Rate
           </span>
         </div>
-      </div>
 
-      {/* Lessons Completed Modal */}
-      <Modal show={showLessonsModal} onHide={() => handleLessonsModal(false)} centered animation>
-        <Modal.Header closeButton style={{ background: '#6B48FF', color: '#fff' }}>
-          <Modal.Title>5M+ Lessons Completed</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ background: '#f9fafc', color: '#1a1a1a' }}>
-          <p>
-            SkillSphere learners have completed over 5 million lessons, reflecting our community’s commitment.
-          </p>
-          <ul>
-            <li>Hands-on projects completed: 1.2M+</li>
-            <li>Active learners: 100,000+</li>
-            <li>Lessons across 50+ courses</li>
-          </ul>
-        </Modal.Body>
-        <Modal.Footer style={{ background: '#f9fafc' }}>
-          <Button variant="secondary" onClick={() => handleLessonsModal(false)}>
-            Close
-          </Button>
-          <Link to="/courses" className="btn" style={{ background: '#6B48FF', color: '#fff' }}>
-            Explore Courses
-          </Link>
-        </Modal.Footer>
-      </Modal>
+        {/* Lessons Completed Modal */}
+        <Modal show={showLessonsModal} onHide={() => handleLessonsModal(false)} centered>
+          <Modal.Header closeButton className="modal-header-custom">
+            <Modal.Title>5M+ Lessons Completed</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>
+              SkillSphere learners have collectively completed over 5 million lessons, a testament to the dedication and enthusiasm within our community. This milestone highlights the platform offering hands-on, practical learning opportunities that resonate across diverse tech disciplines.
+            </p>
+            <ul className="list-unstyled">
+              <li>Hands-on projects completed: 1.2M+</li>
+              <li>Active learners: 100,000+</li>
+              <li>Lessons across 50+ courses</li>
+            </ul>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="outline-secondary" onClick={() => handleLessonsModal(false)}>
+              Close
+            </Button>
+            <Link to="/courses" className="btn btn-primary">
+              Explore Courses
+            </Link>
+          </Modal.Footer>
+        </Modal>
 
-      {/* Success Rate Modal */}
-      <Modal show={showSuccessModal} onHide={() => handleSuccessModal(false)} centered animation>
-        <Modal.Header closeButton style={{ background: '#00DDEB', color: '#fff' }}>
-          <Modal.Title>95% Success Rate</Modal.Title>
-        </Modal.Header>
-        <Modal.Body style={{ background: '#f9fafc', color: '#1a1a1a' }}>
-          <p>
-            Our learners achieve a 95% success rate, securing jobs and mastering new skills.
-          </p>
-          <ul>
-            <li>Job placements: 85% within 6 months</li>
-            <li>Skill certifications earned: 90,000+</li>
-            <li>Positive feedback from mentors: 98%</li>
-          </ul>
-        </Modal.Body>
-        <Modal.Footer style={{ background: '#f9fafc' }}>
-          <Button variant="secondary" onClick={() => handleSuccessModal(false)}>
-            Close
-          </Button>
-          <Link to="/userdash" className="btn" style={{ background: '#00DDEB', color: '#fff' }}>
-            Join Now
-          </Link>
-        </Modal.Footer>
-      </Modal>
+        {/* Success Rate Modal */}
+        <Modal show={showSuccessModal} onHide={() => handleSuccessModal(false)} centered>
+          <Modal.Header closeButton className="modal-header-custom">
+            <Modal.Title>95% Success Rate</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>
+              With a remarkable 95% success rate, SkillSphere empowers learners to achieve tangible outcomes—whether it’s landing high-impact roles in tech, earning certifications, or mastering complex skills. Our structured approach, combined with expert guidance, ensures that your investment in learning translates into real-world success and career advancement.
+            </p>
+            <ul className="list-unstyled">
+              <li>Job placements: 85% within 6 months</li>
+              <li>Skill certifications earned: 90,000+</li>
+              <li>Positive feedback from mentors: 98%</li>
+            </ul>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="outline-secondary" onClick={() => handleSuccessModal(false)}>
+              Close
+            </Button>
+            <Link to="/userdash" className="btn btn-primary">
+              Join Now
+            </Link>
+          </Modal.Footer>
+        </Modal>
+      </section>
 
       {/* Learning Paths Section */}
-      <Container fluid className="py-5" style={{ background: 'linear-gradient(to bottom, #eef2f6, #ffffff)' }}>
+        <Container fluid className="py-5" style={{ background: 'linear-gradient(to bottom, #eef2f6, #ffffff)' }}>
         <h3
           className="text-center mb-5 fw-bold"
           style={{ fontSize: '2.5rem', color: '#2d3748', letterSpacing: '0.5px' }}
@@ -435,6 +589,8 @@ function Home() {
           ))}
         </div>
       </Container>
+
+
 
       {/* About SkillSphere Section */}
       <Container className="py-5" style={{ background: '#f9fafc' }}>
@@ -594,7 +750,7 @@ function Home() {
               to="/about"
               className="btn"
               style={{ background: '#6B48FF', color: '#fff' }}
-              onClick={() => window.scrollTo(0, 0)} // Scroll to top on click
+              onClick={() => window.scrollTo(0, 0)}
             >
               Learn More
             </Link>
@@ -602,6 +758,7 @@ function Home() {
         </Modal>
       </Container>
 
+      {/* Footer */}
       <Footer />
     </div>
   );

@@ -39,7 +39,7 @@ function Wishlist() {
                 <div>
                   <h5 className="mb-1 fw-medium text-dark">{item.title}</h5>
                   <Badge bg="dark" className="rounded-pill">
-                    ${item.price || 49.99}
+                  ₹{item.price || 49.99}
                   </Badge>
                 </div>
               </div>

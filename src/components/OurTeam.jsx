@@ -64,6 +64,11 @@ function OurTeam() {
     <Container fluid className="py-5" style={{ backgroundColor: '#f8fafc', minHeight: '100vh' }}>
       <Row className="text-center mb-5">
         <Col>
+        <img
+            src="https://th.bing.com/th/id/OIP.qTdF7o9g_4Heunaj5vYUWgHaCJ?w=2760&h=800&rs=1&pid=ImgDetMain"
+            alt="Learning Icon"
+            style={{ width: '70px', marginRight: '20px' }}
+          />
           <h1
             className="fw-bold"
             style={{

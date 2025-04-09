@@ -72,19 +72,13 @@ function CourseCard({ course }) {
             {course.description?.substring(0, 60)}...
           </Card.Text>
           {course.instructor && (
-            <Badge
-              className="mb-2 text-white"
-              style={{
-                background: 'linear-gradient(135deg, #0d9488 0%, #38b2ac 100%)', // Updated teal gradient
-                fontSize: '0.8rem',
-              }}
-            >
-              <i className="fa-solid fa-user-tie me-1"></i> {course.instructor}
-            </Badge>
+            <Card.Text className="text-muted small">
+              <i className="fa-solid fa-chalkboard-teacher me-1" style={{ color: '#2c5282' }}></i> {course.instructor}
+            </Card.Text>
           )}
           {course.date && (
             <Card.Text className="text-muted small">
-              <i className="fa-solid fa-calendar-alt me-1"></i> {new Date(course.date).toLocaleDateString()}
+              <i className="fa-solid fa-calendar-alt me-1" style={{ color: '#718096' }}></i> {new Date(course.date).toLocaleDateString()}
             </Card.Text>
           )}
           <div className="mt-3 d-flex justify-content-between align-items-center">
@@ -110,7 +104,7 @@ function CourseCard({ course }) {
                   e.currentTarget.style.transform = 'scale(1)';
                 }}
               >
-                <i className="fa-solid fa-cart-plus me-2"></i> Add to Cart
+                <i className="fa-solid fa-cart-plus me-2" style={{ color: '#fff' }}></i> Add to Cart
               </Button>
             </OverlayTrigger>
             <OverlayTrigger placement="top" overlay={<Tooltip>Add to Wishlist</Tooltip>}>
@@ -147,10 +141,10 @@ function CourseCard({ course }) {
       <Modal show={show} onHide={() => setShow(false)} centered size="lg">
         <Modal.Header className="bg-primary text-white border-0" style={{ borderRadius: '15px 15px 0 0' }}>
           <Modal.Title>
-            <i className="fa-solid fa-graduation-cap me-2"></i> {course.title}
+            <i className="fa-solid fa-graduation-cap me-2" style={{ color: '#ffffff' }}></i> {course.title}
           </Modal.Title>
           <Button variant="link" className="text-white" onClick={() => setShow(false)}>
-            <i className="fa-solid fa-times"></i>
+            <i className="fa-solid fa-times" style={{ color: '#ffffff' }}></i>
           </Button>
         </Modal.Header>
         <Modal.Body className="bg-light p-4">
@@ -161,32 +155,34 @@ function CourseCard({ course }) {
             style={{ maxHeight: '250px', objectFit: 'cover' }}
           />
           <h5 className="fw-semibold text-dark mb-3">
-            <i className="fa-solid fa-info-circle me-2 text-primary"></i> Course Details
+            <i className="fa-solid fa-info-circle me-2" style={{ color: '#3182ce' }}></i> Course Details
           </h5>
           <p className="text-muted mb-4">{course.description}</p>
           <div className="d-flex flex-column gap-2">
             {course.instructor && (
               <p>
-                <i className="fa-solid fa-user-tie me-2 text-info"></i>
+                <i className="fa-solid fa-chalkboard-teacher me-2" style={{ color: '#2c5282' }}></i>
                 <strong>Instructor:</strong> {course.instructor}
               </p>
             )}
             {course.instructorPhone && (
               <p>
-                <i className="fa-solid fa-phone me-2 text-success"></i>
+                <i className="fa-solid fa-phone me-2" style={{ color: '#38a169' }}></i>
                 <strong>Contact:</strong> {course.instructorPhone}
               </p>
             )}
             {course.date && (
               <p>
-                <i className="fa-solid fa-calendar-alt me-2 text-primary"></i>
+                <i className="fa-solid fa-calendar-alt me-2" style={{ color: '#718096' }}></i>
                 <strong>Date:</strong> {new Date(course.date).toLocaleDateString()}
               </p>
             )}
-            <p className="fw-bold text-success">
-              <i className="fa-solid fa-indian-rupee-sign me-2"></i>
-              <strong>Price:</strong> ₹{course.price}
-            </p>
+            {course.price && (
+              <p className="fw-bold text-success">
+            
+                <strong>Price:</strong> ₹{course.price}
+              </p>
+            )}
           </div>
           <Review courseId={course._id} />
         </Modal.Body>
@@ -212,7 +208,7 @@ function CourseCard({ course }) {
               e.currentTarget.style.transform = 'scale(1)';
             }}
           >
-            <i className="fa-solid fa-times me-2"></i> Close
+            <i className="fa-solid fa-times me-2" style={{ color: '#fff' }}></i> Close
           </Button>
           <Button
             variant="primary"
@@ -235,7 +231,7 @@ function CourseCard({ course }) {
               e.currentTarget.style.transform = 'scale(1)';
             }}
           >
-            <i className="fa-solid fa-cart-plus me-2"></i> Enroll Now
+            <i className="fa-solid fa-cart-plus me-2" style={{ color: '#fff' }}></i> Enroll Now
           </Button>
         </Modal.Footer>
       </Modal>

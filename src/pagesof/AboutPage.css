@@ -1,42 +1,209 @@
+/* Marquee container */
 .marquee {
-    overflow: hidden;
-    white-space: nowrap;
-    width: 100%;
+  overflow: hidden;
+  width: 100%;
+  background: #ffffff;
+  padding: 30px 0;
+  position: relative;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+/* Marquee wrapper */
+.marquee-wrapper {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
+  will-change: transform;
+}
+
+/* Marquee content */
+.marquee-content {
+  display: flex;
+  gap: 50px;
+  align-items: stretch;
+  padding: 0 25px;
+}
+
+/* Shared item styling */
+.testimonial-item,
+.course-item {
+  min-width: 320px;
+  padding: 30px 25px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.03);
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid #edf2f7;
+  flex-shrink: 0;
+}
+
+/* Hover effect */
+.testimonial-item:hover,
+.course-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Course item images */
+.course-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.course-icon-fa {
+  font-size: 60px;
+  margin-bottom: 20px;
+  color: #1f2937;
+  transition: transform 0.3s ease;
+}
+
+.course-item:hover .course-icon,
+.course-item:hover .course-icon-fa {
+  transform: scale(1.1);
+}
+
+/* Testimonial text */
+.testimonial-item p {
+  font-size: 1.125rem;
+  color: #374151;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Course title and description */
+.course-item strong {
+  font-size: 1.375rem;
+  color: #111827;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.course-item p {
+  font-size: 1rem;
+  color: #6b7280;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Animation keyframes */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
   }
-  
-  .marquee-content {
-    display: inline-flex;
-    animation: marquee 25s linear infinite;
+  100% {
+    transform: translateX(-50%);
   }
-  
+}
+
+/* Pause on hover */
+.marquee-wrapper:hover {
+  animation-play-state: paused;
+}
+
+.marquee:hover::after {
+  content: "Paused";
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 0.875rem;
+  color: #6b7280;
+  background: #f1f5f9;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* General image styling */
+.about-page img {
+  transition: transform 0.3s ease;
+}
+
+.about-page img:hover {
+  transform: scale(1.03);
+}
+
+/* About section icons */
+.about-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 10px;
+}
+
+/* Feature section icons */
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
   .testimonial-item,
   .course-item {
-    min-width: 250px;
-    text-align: center;
-    padding: 15px;
+    min-width: 280px;
+    padding: 25px 20px;
   }
-  
-  .course-item img {
-    transition: transform 0.3s ease;
+  .course-icon,
+  .course-icon-fa,
+  .about-icon,
+  .feature-icon {
+    width: 50px;
+    height: 50px;
   }
-  
-  .course-item:hover img {
-    transform: scale(1.1);
+  .course-icon-fa {
+    font-size: 50px;
   }
-  
-  @keyframes marquee {
-    0% {
-      transform: translateX(100%);
-    }
-    100% {
-      transform: translateX(-100%);
-    }
+  .marquee-content {
+    gap: 40px;
   }
-  
-  .marquee-content:hover {
-    animation-play-state: paused;
+}
+
+@media (max-width: 576px) {
+  .marquee {
+    padding: 20px 0;
   }
-  
-  .about-page img {
-    transition: transform 0.3s ease;
+  .testimonial-item,
+  .course-item {
+    min-width: 240px;
+    padding: 20px 15px;
   }
+  .course-icon,
+  .course-icon-fa,
+  .about-icon,
+  .feature-icon {
+    width: 45px;
+    height: 45px;
+  }
+  .course-icon-fa {
+    font-size: 45px;
+  }
+  .marquee-content {
+    gap: 30px;
+  }
+}
+
+/* Accessibility: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-wrapper {
+    animation: none;
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 20px;
+  }
+  .testimonial-item:hover,
+  .course-item:hover {
+    transform: none;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  }
+  .course-item:hover .course-icon,
+  .course-item:hover .course-icon-fa {
+    transform: none;
+  }
+}

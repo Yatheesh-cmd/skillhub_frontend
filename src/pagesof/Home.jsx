@@ -20,7 +20,7 @@ function Home() {
     fetchSampleCourses();
     setLoginStatus(!!sessionStorage.getItem('token'));
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
+  
     // Ensure video plays on mount and after route change
     if (videoRef.current) {
       videoRef.current.play().catch((error) => {
@@ -28,7 +28,6 @@ function Home() {
       });
     }
   }, [location.pathname]);
-
   const fetchSampleCourses = async () => {
     try {
       const response = await sampleCoursesApi();
@@ -53,210 +52,410 @@ function Home() {
     <div className="home-wrapper">
       {/* Modernized Hero Section with Professional Text Colors */}
       <section className="hero-section position-relative overflow-hidden">
-  {/* Enhanced Gradient Overlay */}
-  <div
-    className="hero-background"
-    style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      background: 'linear-gradient(140deg, rgba(20, 43, 70, 0.85), rgba(27, 27, 27, 0.18))',
-      zIndex: 1, // Adjusted from 0.6 to 1 to layer properly
-      opacity: 0.95,
-      animation: 'gradientShift 15s ease infinite',
-    }}
-  ></div>
-
-  {/* Background Video with Ref - Updated for Autoplay */}
-  <video
-    ref={videoRef}
-    autoPlay={true} // Explicitly set to true
-    muted={true}   // Explicitly set to true for autoplay compatibility
-    loop={true}    // Explicitly set to true
-    playsInline={true} // Explicitly set to true for mobile compatibility
-    className="hero-video"
-    style={{
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      objectFit: 'cover',
-      zIndex: 0, // Kept at 0 to stay behind content
-      filter: 'brightness(0.7) contrast(1.1)',
-    }}
-  >
-    <source
-      src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4"
-      type="video/mp4"
-    />
-    Your browser does not support the video tag.
-  </video>
-
-  <Container fluid className="position-relative" style={{ zIndex: 2 }}>
-    <Row className="align-items-center min-vh-100 py-5">
-      <Col lg={8} md={10} className="py-5 px-4">
-        {/* Modern Headline with Professional Colors */}
-        <h1
-          className="display-1 fw-bolder animate__animated animate__zoomIn"
-          style={{
-            fontSize: '4.5rem',
-            letterSpacing: '-2px',
-            lineHeight: '1.05',
-            textTransform: 'uppercase',
-            color: '#F5F7FA',
-            position: 'relative', // Added for z-index context
-            zIndex: 2, // Explicitly matches Container
-          }}
-        >
-          Master the Future with{' '}
-          <span
-            style={{
-              background: 'linear-gradient(90deg, #D1D9E6, #4A90E2)',
-              WebkitBackgroundClip: 'text',
-              color: 'transparent',
-              textShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
-            }}
-          >
-            SkillHub
-          </span>
-        </h1>
-        <p
-          className="lead mb-5 animate__animated animate__fadeInUp animate__delay-1s"
-          style={{
-            fontSize: '1.3rem',
-            fontWeight: 300,
-            color: '#CED4DA',
-            maxWidth: '700px',
-            position: 'relative', // Added for z-index context
-            zIndex: 2, // Explicitly matches Container
-          }}
-        >
-          Transform your career with next-gen skills in AI, Web3, and Cloud Computing. Join a global network of innovators and unlock limitless potential. Join a global community of learners and pioneers shaping the future of technology.
-        </p>
-
-        {/* Dynamic Buttons with Updated Colors */}
-        <div className="d-flex gap-4 animate__animated animate__fadeIn animate__delay-2s" style={{ marginTop: '2rem' }}>
-          <Link
-            to={loginStatus ? '/userdash' : '/auth'}
-            className="btn btn-primary custom-btn px-5 py-2"
-            style={{
-              borderRadius: '15px',
-              fontSize: '1.2rem',
-              fontWeight: '700',
-              background: 'linear-gradient(45deg, #1E3A8A, #3B82F6)',
-              border: 'none',
-              boxShadow: '0 5px 15px rgba(59, 130, 246, 0.4)',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
-              color: '#FFFFFF',
-              paddingTop: '0.5rem',
-              paddingBottom: '0.5rem',
-            }}
-            onMouseOver={(e) => {
-              e.target.style.transform = 'translateY(-5px)';
-              e.target.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.6)';
-            }}
-            onMouseOut={(e) => {
-              e.target.style.transform = 'translateY(0)';
-              e.target.style.boxShadow = '0 5px 15px rgba(59, 130, 246, 0.4)';
-            }}
-          >
-            Start to Explore
-          </Link>
-          <Link
-            to="/courses"
-            className="btn btn-outline-light custom-btn px-5 py-2"
-            style={{
-              borderRadius: '15px',
-              fontSize: '1.2rem',
-              fontWeight: '700',
-              borderWidth: '3px',
-              transition: 'all 0.3s ease',
-              color: '#D1D5DB',
-              borderColor: '#D1D5DB',
-              background: 'transparent',
-              paddingTop: '0.5rem',
-              paddingBottom: '0.5rem',
-            }}
-            onMouseOver={(e) => {
-              e.target.style.background = 'linear-gradient(45deg, #3B82F6, #10B981)';
-              e.target.style.borderColor = '#3B82F6';
-              e.target.style.color = '#FFFFFF';
-            }}
-            onMouseOut={(e) => {
-              e.target.style.background = 'transparent';
-              e.target.style.borderColor = '#D1D5DB';
-              e.target.style.color = '#D1D5DB';
-            }}
-          >
-            View Courses
-          </Link>
-        </div>
-
-        {/* Updated Stats with Icons */}
-        <div className="stats mt-5 animate__animated animate__fadeIn animate__delay-3s">
-          <Row className="text-center">
-            <Col xs={4}>
-              <div className="d-flex justify-content-center align-items-center">
-                <i className="bi bi-people-fill me-2" style={{ fontSize: '2rem', color: '#F5F7FA' }}></i>
-                <h3 className="fw-bold" style={{ fontSize: '2.5rem', color: '#F5F7FA' }}>
-                  10K+
-                </h3>
-              </div>
-              <p style={{ color: '#ADB5BD', fontSize: '1rem' }}>Learners</p>
-            </Col>
-            <Col xs={4}>
-              <div className="d-flex justify-content-center align-items-center">
-                <i className="bi bi-book-fill me-2" style={{ fontSize: '2rem', color: '#F5F7FA' }}></i>
-                <h3 className="fw-bold" style={{ fontSize: '2.5rem', color: '#F5F7FA' }}>
-                  500+
-                </h3>
-              </div>
-              <p style={{ color: '#ADB5BD', fontSize: '1rem' }}>Courses</p>
-            </Col>
-            <Col xs={4}>
-              <div className="d-flex justify-content-center align-items-center">
-                <i className="bi bi-trophy-fill me-2" style={{ fontSize: '2rem', color: '#F5F7FA' }}></i>
-                <h3 className="fw-bold" style={{ fontSize: '2.5rem', color: '#F5F7FA' }}>
-                  95%
-                </h3>
-              </div>
-              <p style={{ color: '#ADB5BD', fontSize: '1rem' }}>Success</p>
-            </Col>
-          </Row>
-        </div>
-      </Col>
-    </Row>
-
-    {/* Floating CTA */}
-    <div
-      className="floating-cta position-fixed"
-      style={{ bottom: '40px', right: '40px', zIndex: 10 }}
-    >
-      <Link
-        to={'/learn'}
-        className="btn btn-warning rounded-circle shadow-lg animate__animated animate__pulse animate__infinite"
+      {/* Enhanced Gradient Overlay */}
+      <div
+        className="hero-background"
         style={{
-          width: '70px',
-          height: '70px',
-          fontSize: '1.8rem',
-          background: 'linear-gradient(45deg, #ffca28, #ffeb3b)',
-          border: 'none',
-          transition: 'transform 0.3s ease',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(140deg, rgba(38, 35, 35, 0.74), rgba(27, 27, 27, 0.18))',
+          zIndex: 1,
+          opacity: 0.95,
+          animation: 'gradientShift 15s ease infinite',
+          backgroundSize: '200% 200%',
         }}
-        onMouseOver={(e) => (e.target.style.transform = 'scale(1.15)')}
-        onMouseOut={(e) => (e.target.style.transform = 'scale(1)')}
+      ></div>
+
+      {/* Background Video with Ref - Optimized for Autoplay */}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        className="hero-video"
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          zIndex: 0,
+          filter: 'brightness(0.7) contrast(1.1)',
+        }}
+        preload="auto"
+        poster="/path/to/fallback-image.jpg" // Add a fallback image in your public folder
+        onError={(e) => {
+          console.error('Video error:', e);
+          e.target.src = '/fallback-video.mp4'; // Ensure fallback video exists in public folder
+        }}
+        onCanPlay={() => {
+          if (videoRef.current) {
+            videoRef.current.play().catch((err) => console.warn('Play failed:', err));
+          }
+        }}
       >
-        <i className="bi bi-rocket-takeoff"></i>
-      </Link>
-    </div>
-  </Container>
-</section>
+        <source
+          src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.mp4"
+          type="video/mp4"
+        />
+        <source
+          src="https://videos.pexels.com/video-files/3209828/3209828-hd_1920_1080_25fps.webm"
+          type="video/webm"
+        />
+        Your browser does not support the video tag.
+      </video>
+
+      <Container fluid className="position-relative" style={{ zIndex: 2 }}>
+        <Row className="align-items-center min-vh-100 py-5">
+          {/* Left Side: Main Content */}
+          <Col lg={8} md={8} className="py-5 px-4">
+            {/* Modern Headline with Professional Colors */}
+            <h1
+              className="display-1 fw-bolder animate__animated animate__zoomIn"
+              style={{
+                fontSize: '4.5rem',
+                letterSpacing: '-2px',
+                lineHeight: '1.05',
+                textTransform: 'uppercase',
+                color: '#F5F7FA',
+                position: 'relative',
+                zIndex: 2,
+              }}
+            >
+              Master the Future with{' '}
+              <span
+                style={{
+                  background: 'linear-gradient(90deg, #D1D9E6, #4A90E2)',
+                  WebkitBackgroundClip: 'text',
+                  color: 'transparent',
+                  textShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+                }}
+              >
+                SkillHub
+              </span>
+            </h1>
+            <p
+              className="lead mb-5 animate__animated animate__fadeInUp animate__delay-1s"
+              style={{
+                fontSize: '1.3rem',
+                fontWeight: 300,
+                color: '#CED4DA',
+                maxWidth: '700px',
+                position: 'relative',
+                zIndex: 2,
+              }}
+            >
+              Transform your career with next-gen skills in AI, Web3, and Cloud Computing. Join a global network of innovators and unlock limitless potential. Join a global community of learners and pioneers shaping the future of technology.
+            </p>
+
+            {/* Dynamic Buttons with Updated Colors */}
+            <div className="d-flex gap-4 animate__animated animate__fadeIn animate__delay-2s" style={{ marginTop: '2rem' }}>
+              <Link
+                to={loginStatus ? '/userdash' : '/auth'}
+                className="btn btn-primary custom-btn px-5 py-2"
+                style={{
+                  borderRadius: '15px',
+                  fontSize: '1.2rem',
+                  fontWeight: '700',
+                  background: 'linear-gradient(45deg, #1E3A8A, #3B82F6)',
+                  border: 'none',
+                  boxShadow: '0 5px 15px rgba(59, 130, 246, 0.4)',
+                  transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                  color: '#FFFFFF',
+                  paddingTop: '0.5rem',
+                  paddingBottom: '0.5rem',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-5px)';
+                  e.currentTarget.style.boxShadow = '0 8px 25px rgba(59, 130, 246, 0.6)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 5px 15px rgba(59, 130, 246, 0.4)';
+                }}
+              >
+                Start to Explore
+              </Link>
+              <Link
+                to="/courses"
+                className="btn btn-outline-light custom-btn px-5 py-2"
+                style={{
+                  borderRadius: '15px',
+                  fontSize: '1.2rem',
+                  fontWeight: '700',
+                  borderWidth: '3px',
+                  transition: 'all 0.3s ease',
+                  color: '#D1D5DB',
+                  borderColor: '#D1D5DB',
+                  background: 'transparent',
+                  paddingTop: '0.5rem',
+                  paddingBottom: '0.5rem',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.background = 'linear-gradient(45deg, #3B82F6, #10B981)';
+                  e.currentTarget.style.borderColor = '#3B82F6';
+                  e.currentTarget.style.color = '#FFFFFF';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.background = 'transparent';
+                  e.currentTarget.style.borderColor = '#D1D5DB';
+                  e.currentTarget.style.color = '#D1D5DB';
+                }}
+              >
+                View Courses
+              </Link>
+            </div>
+
+            {/* Updated Stats with Icons */}
+            <div className="stats mt-5 animate__animated animate__fadeIn animate__delay-3s">
+              <Row className="text-center">
+                <Col xs={4}>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <i className="bi bi-people-fill me-2" style={{ fontSize: '2rem', color: '#F5F7FA' }}></i>
+                    <h3 className="fw-bold" style={{ fontSize: '2.5rem', color: '#F5F7FA' }}>
+                      10K+
+                    </h3>
+                  </div>
+                  <p style={{ color: '#ADB5BD', fontSize: '1rem' }}>Learners</p>
+                </Col>
+                <Col xs={4}>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <i className="bi bi-book-fill me-2" style={{ fontSize: '2rem', color: '#F5F7FA' }}></i>
+                    <h3 className="fw-bold" style={{ fontSize: '2.5rem', color: '#F5F7FA' }}>
+                      100+
+                    </h3>
+                  </div>
+                  <p style={{ color: '#ADB5BD', fontSize: '1rem' }}>Courses</p>
+                </Col>
+                <Col xs={4}>
+                  <div className="d-flex justify-content-center align-items-center">
+                    <i className="bi bi-trophy-fill me-2" style={{ fontSize: '2rem', color: '#F5F7FA' }}></i>
+                    <h3 className="fw-bold" style={{ fontSize: '2.5rem', color: '#F5F7FA' }}>
+                      95%
+                    </h3>
+                  </div>
+                  <p style={{ color: '#ADB5BD', fontSize: '1rem' }}>Success</p>
+                </Col>
+              </Row>
+            </div>
+          </Col>
+
+          {/* Right Side: Trending Courses (Vertical) */}
+          <Col lg={4} md={4} className="py-5 px-4 d-flex flex-column align-items-center">
+            <div className="featured-courses animate__animated animate__fadeIn animate__delay-4s">
+              <h2
+                className="fw-bold mb-4 text-center"
+                style={{
+                  fontSize: '2rem',
+                  color: '#F5F7FA',
+                  textTransform: 'uppercase',
+                  letterSpacing: '-1px',
+                  textShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+                }}
+              >
+                Trending Courses
+              </h2>
+              <div className="d-flex flex-column gap-4">
+                {/* Course Card 1 */}
+                <div
+                  className="course-card"
+                  style={{
+                    background: 'linear-gradient(135deg, #228B22, #00FA9A)',
+                    borderRadius: '15px',
+                    padding: '15px',
+                    color: '#FFFFFF',
+                    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.3)',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    cursor: 'pointer',
+                    width: '100%',
+                    maxWidth: '300px',
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = 'translateX(10px)';
+                    e.currentTarget.style.boxShadow = '0 12px 30px rgba(59, 130, 246, 0.5)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = 'translateX(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.3)';
+                  }}
+                >
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: '700' }}>AI Mastery</h3>
+                  <p style={{ fontSize: '0.9rem', opacity: '0.9' }}>
+                    Hands-on AI projects.
+                  </p>
+                  <div className="d-flex justify-content-between align-items-center mt-2">
+                    <span style={{ fontSize: '0.8rem', fontWeight: '500' }}>4.8 ★</span>
+                    <Link
+                      to="/courses"
+                      className="btn btn-light btn-sm"
+                      style={{
+                        borderRadius: '8px',
+                        fontWeight: '600',
+                        padding: '3px 10px',
+                      }}
+                    >
+                      Enroll
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Course Card 2 */}
+                <div
+                  className="course-card"
+                  style={{
+                    background: 'linear-gradient(135deg, #9400D3, #DA70D6)',
+                    borderRadius: '15px',
+                    padding: '15px',
+                    color: '#FFFFFF',
+                    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.3)',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    cursor: 'pointer',
+                    width: '100%',
+                    maxWidth: '300px',
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = 'translateX(10px)';
+                    e.currentTarget.style.boxShadow = '0 12px 30px rgba(16, 185, 129, 0.5)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = 'translateX(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.3)';
+                  }}
+                >
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: '700' }}>Web3 Essentials</h3>
+                  <p style={{ fontSize: '0.9rem', opacity: '0.9' }}>
+                    Blockchain & NFTs.
+                  </p>
+                  <div className="d-flex justify-content-between align-items-center mt-2">
+                    <span style={{ fontSize: '0.8rem', fontWeight: '500' }}>4.9 ★</span>
+                    <Link
+                      to="/courses"
+                      className="btn btn-light btn-sm"
+                      style={{
+                        borderRadius: '8px',
+                        fontWeight: '600',
+                        padding: '3px 10px',
+                      }}
+                    >
+                      Enroll
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Course Card 3 */}
+                <div
+                  className="course-card"
+                  style={{
+                    background: 'linear-gradient(135deg, rgb(67, 30, 131), #A78BFA)',
+                    borderRadius: '15px',
+                    padding: '15px',
+                    color: '#FFFFFF',
+                    boxShadow: '0 8px 20px rgba(0, 0, 0, 0.3)',
+                    transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                    cursor: 'pointer',
+                    width: '100%',
+                    maxWidth: '300px',
+                  }}
+                  onMouseOver={(e) => {
+                    e.currentTarget.style.transform = 'translateX(10px)';
+                    e.currentTarget.style.boxShadow = '0 12px 30px rgba(124, 58, 237, 0.5)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.currentTarget.style.transform = 'translateX(0)';
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.3)';
+                  }}
+                >
+                  <h3 style={{ fontSize: '1.2rem', fontWeight: '700' }}>Cloud Computing</h3>
+                  <p style={{ fontSize: '0.9rem', opacity: '0.9' }}>
+                    AWS, Azure, GCP.
+                  </p>
+                  <div className="d-flex justify-content-between align-items-center mt-2">
+                    <span style={{ fontSize: '0.8rem', fontWeight: '500' }}>4.7 ★</span>
+                    <Link
+                      to="/courses"
+                      className="btn btn-light btn-sm"
+                      style={{
+                        borderRadius: '8px',
+                        fontWeight: '600',
+                        padding: '3px 10px',
+                      }}
+                    >
+                      Enroll
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
+
+        {/* Floating CTA with Contact Button */}
+        <div
+          className="floating-cta position-fixed"
+          style={{ bottom: '40px', right: '40px', zIndex: 10, display: 'flex', flexDirection: 'column', gap: '15px' }}
+        >
+          {/* Contact WhatsApp Button */}
+          <a
+            href="https://wa.me/916238932825"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-success rounded-circle shadow-lg animate__animated animate__pulse animate__infinite"
+            style={{
+              width: '70px',
+              height: '70px',
+              fontSize: '1.8rem',
+              background: 'linear-gradient(45deg, rgb(0, 255, 94), rgb(57, 242, 16))',
+              border: 'none',
+              transition: 'transform 0.3s ease',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.15)')}
+            onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            <i className="fa-brands fa-whatsapp fa-beat fa-lg"></i>
+          </a>
+
+          {/* Rocket Button */}
+          <Link
+            to="/learn"
+            className="btn btn-warning rounded-circle shadow-lg animate__animated animate__pulse animate__infinite"
+            style={{
+              width: '70px',
+              height: '70px',
+              fontSize: '1.8rem',
+              background: 'linear-gradient(45deg, #ffca28, #ffeb3b)',
+              border: 'none',
+              transition: 'transform 0.3s ease',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            onMouseOver={(e) => (e.currentTarget.style.transform = 'scale(1.15)')}
+            onMouseOut={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            <i className="bi bi-rocket-takeoff"></i>
+          </Link>
+        </div>
+      </Container>
+
+      {/* Animation keyframes for gradient */}
+      <style>
+        {`
+          @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}
+      </style>
+    </section>
       {/* Trending Tech Courses Section */}
       <Container fluid className="p-5 my-5" style={{ background: '#f9fafc' }}>
         <h3

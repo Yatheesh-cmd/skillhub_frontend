@@ -179,7 +179,6 @@ function CourseCard({ course }) {
             )}
             {course.price && (
               <p className="fw-bold text-success">
-            
                 <strong>Price:</strong> ₹{course.price}
               </p>
             )}

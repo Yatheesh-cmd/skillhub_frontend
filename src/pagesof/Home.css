@@ -1,11 +1,11 @@
 /* General Wrapper */
-.home-wrapper {
+/* .home-wrapper {
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
-}
+} */
 
 /* Hero Section */
-.hero-section {
+/* .hero-section {
   min-height: 100vh;
   background: linear-gradient(135deg, #1D075A, #ff2b75, #0E1D72);
   padding: 0 6rem;
@@ -87,7 +87,7 @@
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
-}
+} */
 
 /* Trending Courses Section */
 .trending-section {

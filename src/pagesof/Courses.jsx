@@ -60,7 +60,7 @@ function Courses() {
           </Col>
         </Row>
 
-        <Row className="px-3">
+        <Row className="px-3 g-4">
           {loading ? (
             <Col className="text-center py-5">
               <Spinner animation="border" variant="primary" style={{ width: '3rem', height: '3rem' }} />

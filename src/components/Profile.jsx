@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import base_url from '../services/base_url';
 import { toast } from 'react-toastify';
-import { updateProfileApi } from '../services/api';
+import { updateProfileApi, getProfileApi } from '../services/api';
 
 function Profile() {
   const [open, setOpen] = useState(false);
@@ -10,25 +10,40 @@ function Profile() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await getProfileApi();
+        if (response.status === 200) {
+          const { username, github, linkedin, profile } = response.data;
+          setProfileData({ username, github, linkedin, profile });
+          // Update sessionStorage to keep it in sync
+          sessionStorage.setItem('user', username);
+          sessionStorage.setItem('github', github || '');
+          sessionStorage.setItem('linkedin', linkedin || '');
+          sessionStorage.setItem('profile', profile || '');
+        }
+      } catch (error) {
+        toast.error(error.message || "Failed to fetch profile data");
+      }
+    };
+
     if (sessionStorage.getItem('token')) {
-      setProfileData({
-        username: sessionStorage.getItem('user') || "",
-        github: sessionStorage.getItem('github') || "",
-        linkedin: sessionStorage.getItem('linkedin') || "",
-        profile: sessionStorage.getItem('profile') || ""
-      });
+      fetchProfile();
     }
   }, []);
 
   useEffect(() => {
-    if (profileData.profile && profileData.profile.type) {
+    if (profileData.profile && typeof profileData.profile === 'object' && profileData.profile.type) {
+      // Handle file object for preview during upload
       const url = URL.createObjectURL(profileData.profile);
       setPreview(url);
       return () => URL.revokeObjectURL(url);
     } else {
-      setPreview(profileData.profile 
-        ? `${base_url}/uploads/${profileData.profile}` 
-        : "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+      // Handle server-stored image or default
+      setPreview(
+        profileData.profile
+          ? `${base_url}/uploads/${profileData.profile}`
+          : "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
       );
     }
   }, [profileData.profile]);
@@ -36,12 +51,12 @@ function Profile() {
   const handleUpdate = async () => {
     setLoading(true);
     const { username, github, linkedin, profile } = profileData;
-    if (!username || !github || !linkedin || !profile) {
-      toast.warning("Please fill in all fields");
+    if (!username) {
+      toast.warning("Username is required");
       setLoading(false);
       return;
     }
-    if (profile.type && !['image/jpg', 'image/jpeg', 'image/png'].includes(profile.type)) {
+    if (profile && typeof profile === 'object' && !['image/jpg', 'image/jpeg', 'image/png'].includes(profile.type)) {
       toast.warning("Please upload JPG, JPEG, or PNG images only");
       setLoading(false);
       return;
@@ -49,23 +64,33 @@ function Profile() {
     try {
       const formData = new FormData();
       formData.append("username", username);
-      formData.append("github", github);
-      formData.append("linkedin", linkedin);
-      if (profile.type) formData.append("profile", profile);
+      formData.append("github", github || "");
+      formData.append("linkedin", linkedin || "");
+      if (profile && typeof profile === 'object') {
+        formData.append("profile", profile);
+      }
 
       const result = await updateProfileApi(formData);
       if (result.status === 200) {
         toast.success("Profile updated successfully!");
-        sessionStorage.setItem('user', username);
-        sessionStorage.setItem('github', github);
-        sessionStorage.setItem('linkedin', linkedin);
-        sessionStorage.setItem('profile', result.data.profile || profile);
+        const updatedUser = result.data.user;
+        // Update state and sessionStorage
+        setProfileData({
+          username: updatedUser.username,
+          github: updatedUser.github || "",
+          linkedin: updatedUser.linkedin || "",
+          profile: updatedUser.profile || ""
+        });
+        sessionStorage.setItem('user', updatedUser.username);
+        sessionStorage.setItem('github', updatedUser.github || '');
+        sessionStorage.setItem('linkedin', updatedUser.linkedin || '');
+        sessionStorage.setItem('profile', updatedUser.profile || '');
         setOpen(false);
       } else {
         toast.error(result.data?.message || "Update failed");
       }
     } catch (error) {
-      toast.error(!error.response ? "Network error occurred" : error.response?.data?.message || "An error occurred");
+      toast.error(error.message || "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -93,7 +118,7 @@ function Profile() {
             <label htmlFor="profileInput" className="cursor-pointer">
               <div className="position-relative d-inline-block">
                 <img
-                  src="https://i.pinimg.com/736x/7a/9a/c7/7a9ac79746e05eb090a0ac32472958fc.jpg"
+                  src={preview}
                   alt="Profile"
                   className="rounded-circle img-fluid"
                   style={{

@@ -1,0 +1,41 @@
+/* UserDashboard.module.css */
+.sidebar {
+    background-color: #1e2a44;
+    min-height: 100vh;
+    padding: 1.5rem;
+  }
+  
+  .logo {
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 2.5rem;
+  }
+  
+  .navLink {
+    color: #ffffff;
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  
+  .navLink:hover {
+    background-color: #334155;
+    color: #ffffff;
+  }
+  
+  .navLinkActive {
+   
+    color: #ffffff;
+  }
+  
+  .navLinkActive:hover {
+    
+    color: #ffffff;
+  }
+  
+  .navIcon {
+    margin-right: 0.5rem;
+  }

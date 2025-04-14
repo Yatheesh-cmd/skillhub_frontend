@@ -3,7 +3,7 @@ import { Row, Col, Card, Container, Alert } from 'react-bootstrap';
 import ProgressTracker from '../components/ProgressTracker';
 import Cart from '../components/Cart';
 import Wishlist from '../components/Wishlist';
-import Profile from '../components/Profile';
+
 import { getUserCourses, getCart } from '../services/api';
 import { cartContext, wishlistContext } from '../context/ContextApi';
 import { toast } from 'react-toastify';
@@ -180,9 +180,7 @@ function UserDashboard() {
           </div>
         </Col>
 
-        <Col lg={4}>
-          <Profile />
-        </Col>
+       
       </Row>
     </Container>
   );

@@ -3,7 +3,7 @@ import CourseCard from '../components/CourseCard';
 import Header from '../components/Header';
 import { allCoursesApi } from '../services/api';
 import { toast } from 'react-toastify';
-import { Container, Row, Col, Form, Spinner, Alert, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, Spinner, Card } from 'react-bootstrap';
 
 function Courses() {
   const [courses, setCourses] = useState([]);
@@ -16,15 +16,16 @@ function Courses() {
 
   const getData = async () => {
     if (!sessionStorage.getItem('token')) {
-      toast.warning('Please log in to view courses');
+      toast.warning('Please login first');
       return;
     }
     setLoading(true);
     try {
       const result = await allCoursesApi(search);
-      setCourses(result.status === 200 ? result.data : []);
+      if (result.status === 200) setCourses(result.data);
+      else toast.error('Failed to load courses');
     } catch (error) {
-      toast.error('Network error. Please try again later.');
+      toast.error('Network error occurred');
     } finally {
       setLoading(false);
     }
@@ -33,53 +34,69 @@ function Courses() {
   return (
     <>
       <Header />
-      <Container fluid className="py-5 bg-light min-vh-100">
-        <Row className="mb-5 align-items-center px-3">
-          <Col md={7}>
-            <h1 className="display-5 fw-bold text-dark mb-3">
-              <i className="fa-solid fa-book-open me-2"></i> Explore Our Courses
+      <Container fluid className="py-5" style={{ backgroundColor: '#f4f7fc', minHeight: '100vh' }}>
+        <Row className="justify-content-between align-items-center mb-5 px-4">
+          <Col md={6}>
+            <h1
+              className="fw-bold"
+              style={{ fontSize: '2.5rem', color: '#1a1a1a' }}
+            >
+              Explore All Courses
             </h1>
-            <p className="text-muted lead">
-              Elevate your skills with expertly curated courses designed for professional growth.
+            <p
+              className="text-muted"
+              style={{ fontSize: '1.1rem', lineHeight: '1.6' }}
+            >
+              Discover a wide range of courses tailored for your professional growth.
             </p>
           </Col>
-          <Col md={5}>
-            <InputGroup className="shadow-sm">
-              <InputGroup.Text className="bg-white border-0">
-                <i className="fa-solid fa-magnifying-glass text-muted"></i>
-              </InputGroup.Text>
-              <Form.Control
-                type="search"
-                placeholder="Search courses by name..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="border-0"
-                style={{ borderRadius: '0 10px 10px 0' }}
-              />
-            </InputGroup>
+          <Col md={4}>
+            <Form.Group>
+              <Form.Label visuallyHidden>Search</Form.Label>
+              <div className="d-flex align-items-center shadow-sm" style={{
+                border: '1px solid #ced4da',
+                borderRadius: '8px',
+                padding: '0.5rem 1rem',
+                backgroundColor: '#fff'
+              }}>
+                <span style={{ fontSize: '1.5rem', marginRight: '0.5rem', color: '#555' }}>🔍</span>
+                <Form.Control
+                  type="search"
+                  placeholder="Search by course name..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  style={{
+                    border: 'none',
+                    boxShadow: 'none'
+                  }}
+                />
+              </div>
+            </Form.Group>
           </Col>
         </Row>
 
-        <Row className="px-3 g-4">
+        <Row className="px-4">
           {loading ? (
-            <Col className="text-center py-5">
+            <Col className="text-center my-5">
               <Spinner animation="border" variant="primary" style={{ width: '3rem', height: '3rem' }} />
-              <p className="mt-3 text-muted">Loading courses...</p>
+              <p className="mt-3" style={{ color: '#666' }}>Loading courses...</p>
             </Col>
           ) : courses.length > 0 ? (
             courses.map((item) => (
-              <Col key={item._id} xs={12} sm={6} md={4} lg={3} className="mb-5">
+              <Col key={item._id} xs={12} sm={6} md={4} lg={3} className="mb-4">
                 <CourseCard course={item} />
               </Col>
             ))
           ) : (
             <Col>
-              <Alert variant="warning" className="text-center py-4 shadow-sm">
-                <h4 className="fw-semibold">
-                  <i className="fa-solid fa-exclamation-triangle me-2"></i> No Courses Found
-                </h4>
-                <p className="mb-0">New courses are coming soon. Stay tuned!</p>
-              </Alert>
+              <Card className="border-0 shadow-sm text-center p-5" style={{ borderRadius: '12px' }}>
+                <Card.Body>
+                  <h3 className="text-danger fw-semibold">No Courses Available</h3>
+                  <p className="text-muted" style={{ fontSize: '1.1rem' }}>
+                    Check back later for new course offerings!
+                  </p>
+                </Card.Body>
+              </Card>
             </Col>
           )}
         </Row>

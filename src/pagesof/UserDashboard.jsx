@@ -101,7 +101,7 @@ function UserDashboard() {
         <Card.Body className="p-5 d-flex align-items-center">
           <div>
             <h1 className="fw-bold mb-2" style={{ fontSize: '2.25rem', color: '#1a1a1a' }}>
-              Welcome back, <span style={{ color: '#4a00e0' }}>{username} <i className="fa-solid fa-graduation-cap"></i></span>
+              Welcome back, <span style={{ color: '#4a00e0' }}>{username} 👨‍💻</span>
             </h1>
             <p className="text-muted mb-0" style={{ fontSize: '1.1rem' }}>
               Continue your learning journey with <strong>SkillHub</strong>

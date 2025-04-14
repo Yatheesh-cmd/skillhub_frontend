@@ -6,14 +6,16 @@
 
 /* Hero Section */
 /* .hero-section {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #1D075A, #ff2b75, #0E1D72);
-  padding: 0 6rem;
-  color: #fff;
-  position: relative;
+  min-height: 100vh; */
+  /* background: linear-gradient(135deg, #1D075A, #ff2b75, #0E1D72); */
+  /* padding: 0 3rem; */
+  /* color: #fff; */
+  /* position: relative;
   overflow: hidden;
-}
-
+} */
+.hero-section {
+  padding: 0 2rem;}
+/*
 .hero-section h1 {
   font-size: 3.75rem;
   font-weight: 800;

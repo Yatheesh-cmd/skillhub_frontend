@@ -51,12 +51,16 @@ function Auth() {
       const result = await loginApi(loginData);
       if (result.status === 200) {
         toast.success("Login successful", { style: { backgroundColor: "#4caf50", color: "#fff" } });
-        sessionStorage.setItem('token', result.data.token);
-        sessionStorage.setItem('user', result.data.user.username);
-        sessionStorage.setItem('role', result.data.user.role);
+        const { token, user: userData } = result.data;
+        sessionStorage.setItem('token', token);
+        sessionStorage.setItem('user', userData.username);
+        sessionStorage.setItem('role', userData.role);
+        sessionStorage.setItem('github', userData.github || '');
+        sessionStorage.setItem('linkedin', userData.linkedin || '');
+        sessionStorage.setItem('profile', userData.profile || '');
         setAuth(true);
-        setContextRole(result.data.user.role);
-        nav(result.data.user.role === 'admin' ? '/admindash' : '/userdash');
+        setContextRole(userData.role);
+        nav(userData.role === 'admin' ? '/admindash' : '/userdash');
       } else {
         toast.error(result.response?.data || "Something went wrong", { style: { backgroundColor: "#f44336", color: "#fff" } });
       }
@@ -68,7 +72,7 @@ function Auth() {
   return (
     <div className="auth-wrapper">
       <div className="auth-box">
-        <Row className="align-items-center">
+        <Row className="align-items-center g-3">
           <Col xs={12} md={6} className="text-center">
             {authStatus ? (
               <img
@@ -89,44 +93,80 @@ function Auth() {
             <div>
               {!authStatus && (
                 <div className="input-group mb-4">
-                  <FloatingLabel label="Login As" className="flex-grow-1">
-                    <Form.Select
-                      value={role}
-                      onChange={(e) => setRole(e.target.value)}
-                      aria-label="Select login role"
-                    >
-                      <option value="user">User</option>
-                      <option value="admin">Admin</option>
-                    </Form.Select>
-                  </FloatingLabel>
-                  <i className="fas fa-user-tag input-icon"></i>
+                  <div className="form-floating-container">
+                    <FloatingLabel label="Login As" className="flex-grow-1">
+                      <Form.Select
+                        value={role}
+                        onChange={(e) => setRole(e.target.value)}
+                        aria-label="Select login role"
+                      >
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                      </Form.Select>
+                    </FloatingLabel>
+                    <i className="fas fa-user-tag input-icon"></i>
+                  </div>
                 </div>
               )}
               <div className="input-group mb-4">
-                <FloatingLabel label="Email address" className="flex-grow-1">
-                  <Form.Control
-                    type="email"
-                    value={user.email}
-                    onChange={(e) => setUser({ ...user, email: e.target.value })}
-                    aria-label="Email address"
-                  />
-                </FloatingLabel>
-                <i className="fas fa-envelope input-icon"></i>
+                <div className="form-floating-container">
+                  <FloatingLabel label="Email address" className="flex-grow-1">
+                    <Form.Control
+                      type="email"
+                      value={user.email}
+                      onChange={(e) => setUser({ ...user, email: e.target.value })}
+                      aria-label="Email address"
+                    />
+                  </FloatingLabel>
+                  <i className="fas fa-envelope input-icon"></i>
+                </div>
               </div>
               {authStatus && (
                 <>
                   <div className="input-group mb-4">
-                    <FloatingLabel label="Username" className="flex-grow-1">
-                      <Form.Control
-                        type="text"
-                        value={user.username}
-                        onChange={(e) => setUser({ ...user, username: e.target.value })}
-                        aria-label="Username"
-                      />
-                    </FloatingLabel>
-                    <i className="fas fa-user input-icon"></i>
+                    <div className="form-floating-container">
+                      <FloatingLabel label="Username" className="flex-grow-1">
+                        <Form.Control
+                          type="text"
+                          value={user.username}
+                          onChange={(e) => setUser({ ...user, username: e.target.value })}
+                          aria-label="Username"
+                        />
+                      </FloatingLabel>
+                      <i className="fas fa-user input-icon"></i>
+                    </div>
                   </div>
                   <div className="input-group mb-4">
+                    <div className="form-floating-container">
+                      <FloatingLabel label="Password" className="flex-grow-1">
+                        <Form.Control
+                          type="password"
+                          value={user.password}
+                          onChange={(e) => setUser({ ...user, password: e.target.value })}
+                          aria-label="Password"
+                        />
+                      </FloatingLabel>
+                      <i className="fas fa-lock input-icon"></i>
+                    </div>
+                  </div>
+                  <div className="input-group mb-4">
+                    <div className="form-floating-container">
+                      <FloatingLabel label="Confirm Password" className="flex-grow-1">
+                        <Form.Control
+                          type="password"
+                          value={user.confirmPassword}
+                          onChange={(e) => setUser({ ...user, confirmPassword: e.target.value })}
+                          aria-label="Confirm password"
+                        />
+                      </FloatingLabel>
+                      <i className="fas fa-lock input-icon"></i>
+                    </div>
+                  </div>
+                </>
+              )}
+              {!authStatus && (
+                <div className="input-group mb-4">
+                  <div className="form-floating-container">
                     <FloatingLabel label="Password" className="flex-grow-1">
                       <Form.Control
                         type="password"
@@ -137,30 +177,6 @@ function Auth() {
                     </FloatingLabel>
                     <i className="fas fa-lock input-icon"></i>
                   </div>
-                  <div className="input-group mb-4">
-                    <FloatingLabel label="Confirm Password" className="flex-grow-1">
-                      <Form.Control
-                        type="password"
-                        value={user.confirmPassword}
-                        onChange={(e) => setUser({ ...user, confirmPassword: e.target.value })}
-                        aria-label="Confirm password"
-                      />
-                    </FloatingLabel>
-                    <i className="fas fa-lock input-icon"></i>
-                  </div>
-                </>
-              )}
-              {!authStatus && (
-                <div className="input-group mb-4">
-                  <FloatingLabel label="Password" className="flex-grow-1">
-                    <Form.Control
-                      type="password"
-                      value={user.password}
-                      onChange={(e) => setUser({ ...user, password: e.target.value })}
-                      aria-label="Password"
-                    />
-                  </FloatingLabel>
-                  <i className="fas fa-lock input-icon"></i>
                 </div>
               )}
             </div>

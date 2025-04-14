@@ -26,7 +26,10 @@ function Profile() {
       setPreview(url);
       return () => URL.revokeObjectURL(url);
     } else {
-      setPreview(profileData.profile ? `${base_url}/uploads/${profileData.profile}` : "https://via.placeholder.com/150");
+      setPreview(profileData.profile 
+        ? `${base_url}/uploads/${profileData.profile}` 
+        : "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+      );
     }
   }, [profileData.profile]);
 
@@ -34,12 +37,12 @@ function Profile() {
     setLoading(true);
     const { username, github, linkedin, profile } = profileData;
     if (!username || !github || !linkedin || !profile) {
-      toast.warning("Enter valid inputs");
+      toast.warning("Please fill in all fields");
       setLoading(false);
       return;
     }
     if (profile.type && !['image/jpg', 'image/jpeg', 'image/png'].includes(profile.type)) {
-      toast.warning("Only JPG, JPEG, or PNG images allowed");
+      toast.warning("Please upload JPG, JPEG, or PNG images only");
       setLoading(false);
       return;
     }
@@ -69,29 +72,104 @@ function Profile() {
   };
 
   return (
-    <div className="border p-3">
-      <div className="d-flex justify-content-between">
-        <h2 >Your Profile</h2>
-        <button className="btn bg-info" onClick={() => setOpen(!open)}>
-          {open ? <i className="fa-solid fa-up-long text-dark"></i> : <i className="fa-solid fa-down-long text-dark"></i>}
+    <div className="border rounded-lg p-4 shadow-sm bg-white">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2 className="h4 mb-0 text-dark">Your Profile</h2>
+        <button 
+          className="btn btn-outline-primary btn-sm" 
+          onClick={() => setOpen(!open)}
+          aria-label={open ? "Collapse profile form" : "Expand profile form"}
+        >
+          {open ? (
+            <i className="fa-solid fa-chevron-up"></i>
+          ) : (
+            <i className="fa-solid fa-chevron-down"></i>
+          )}
         </button>
       </div>
       {open && (
-        <div>
-          <label htmlFor="profileInput">
-            <input type="file" id="profileInput" style={{ display: 'none' }} onChange={(e) => setProfileData({ ...profileData, profile: e.target.files[0] })} />
-            <img
-              src={preview}
-              alt="profile"
-              className="img-fluid mx-5"
+        <div className="mt-4">
+          <div className="text-center mb-4">
+            <label htmlFor="profileInput" className="cursor-pointer">
+              <div className="position-relative d-inline-block">
+                <img
+                  src="https://i.pinimg.com/736x/7a/9a/c7/7a9ac79746e05eb090a0ac32472958fc.jpg"
+                  alt="Profile"
+                  className="rounded-circle img-fluid"
+                  style={{
+                    width: '120px',
+                    height: '120px',
+                    objectFit: 'cover',
+                    border: '2px solid #e9ecef'
+                  }}
+                />
+                <div className="position-absolute bottom-0 end-0 bg-primary rounded-circle p-2">
+                  <i className="fa-solid fa-camera text-white"></i>
+                </div>
+              </div>
+              <input
+                type="file"
+                id="profileInput"
+                accept="image/*"
+                className="d-none"
+                onChange={(e) => setProfileData({ ...profileData, profile: e.target.files[0] })}
+              />
+            </label>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="username" className="form-label">Username</label>
+            <input
+              type="text"
+              id="username"
+              value={profileData.username}
+              onChange={(e) => setProfileData({ ...profileData, username: e.target.value })}
+              placeholder="Enter username"
+              className="form-control"
             />
-          </label>
-          <input type="text" value={profileData.username} onChange={(e) => setProfileData({ ...profileData, username: e.target.value })} placeholder="Enter username" className="form-control mb-3" />
-          <input type="text" value={profileData.github} onChange={(e) => setProfileData({ ...profileData, github: e.target.value })} placeholder="Enter GitHub URL" className="form-control mb-3" />
-          <input type="text" value={profileData.linkedin} onChange={(e) => setProfileData({ ...profileData, linkedin: e.target.value })} placeholder="Enter LinkedIn URL" className="form-control mb-3" />
-          <div className="d-flex justify-content-between">
-            <button className="btn btn-success" onClick={handleUpdate} disabled={loading}>Save</button>
-            <button className="btn btn-outline-dark" onClick={() => setOpen(false)}>Cancel</button>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="github" className="form-label">GitHub URL</label>
+            <input
+              type="url"
+              id="github"
+              value={profileData.github}
+              onChange={(e) => setProfileData({ ...profileData, github: e.target.value })}
+              placeholder="Enter GitHub URL"
+              className="form-control"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="linkedin" className="form-label">LinkedIn URL</label>
+            <input
+              type="url"
+              id="linkedin"
+              value={profileData.linkedin}
+              onChange={(e) => setProfileData({ ...profileData, linkedin: e.target.value })}
+              placeholder="Enter LinkedIn URL"
+              className="form-control"
+            />
+          </div>
+          <div className="d-flex justify-content-end gap-2">
+            <button
+              className="btn btn-info"
+              onClick={handleUpdate}
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Saving...
+                </>
+              ) : (
+                'Save Changes'
+              )}
+            </button>
+            <button
+              className="btn btn-outline-dark"
+              onClick={() => setOpen(false)}
+            >
+              Cancel
+            </button>
           </div>
         </div>
       )}

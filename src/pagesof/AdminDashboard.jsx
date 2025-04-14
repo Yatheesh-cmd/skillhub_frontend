@@ -125,7 +125,7 @@ function AdminDashboard() {
                       </p>
                     )}
                     <p className="mb-0 text-success fw-bold" style={{ fontSize: '1rem' }}>
-                      <i className="fa-solid fa-indian-rupee-sign me-2"></i>
+                     
                       <strong>Price:</strong> ₹{course.price}
                     </p>
                   </div>

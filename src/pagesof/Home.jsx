@@ -61,7 +61,7 @@ function Home() {
           left: 0,
           width: '100%',
           height: '100%',
-          background: 'linear-gradient(140deg, rgba(38, 35, 35, 0.74), rgba(27, 27, 27, 0.18))',
+          // background: 'linear-gradient(140deg, rgba(38, 35, 35, 0.74), rgba(27, 27, 27, 0.18))',
           zIndex: 1,
           opacity: 0.95,
           animation: 'gradientShift 15s ease infinite',
@@ -144,13 +144,14 @@ function Home() {
               style={{
                 fontSize: '1.3rem',
                 fontWeight: 300,
-                color: '#CED4DA',
+                color: '#cad6e3',
                 maxWidth: '700px',
                 position: 'relative',
                 zIndex: 2,
               }}
             >
-              Transform your career with next-gen skills in AI, Web3, and Cloud Computing. Join a global network of innovators and unlock limitless potential. Join a global community of learners and pioneers shaping the future of technology.
+              Transform your career with next-gen skills in AI, Web3, and Cloud Computing. Join a global network of innovators and unlock limitless potential. Join a global community of learners and pioneers shaping the future of technology.Elevate your skillset, accelerate your career, and build solutions that matter.
+              The future is now—are you ready to lead it?
             </p>
 
             {/* Dynamic Buttons with Updated Colors */}

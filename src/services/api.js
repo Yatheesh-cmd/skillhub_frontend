@@ -8,7 +8,7 @@ const commonApi = async (url, method, headers = {}, data = {}, isMultipart = fal
     headers: isMultipart ? headers : { 'Content-Type': 'application/json', ...headers },
     data,
     onUploadProgress,
-    timeout: 10000,
+    timeout: 100000,
   };
   try {
     const response = await axios(config);
@@ -41,6 +41,7 @@ export const allCoursesApi = (search) =>
   commonApi(`/courses/allcourses?search=${encodeURIComponent(search || '')}`, 'GET', getAuthHeaders());
 export const updateProfileApi = (formData) =>
   commonApi('/user/updateprofile', 'PUT', { ...getAuthHeaders(), 'Content-Type': 'multipart/form-data' }, formData, true);
+export const getProfileApi = () => commonApi('/user/profile', 'GET', getAuthHeaders());
 export const updateProgressApi = (courseId, progress) =>
   commonApi(`/user/update-progress/${courseId}`, 'PUT', getAuthHeaders(), { progress });
 export const initiatePaymentApi = (cart) =>

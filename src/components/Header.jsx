@@ -30,7 +30,6 @@ function Header() {
       role="navigation"
     >
       <Container>
-        {/* Brand Logo with Animation */}
         <Navbar.Brand as={Link} to="/" aria-label="SkillHub Home">
           <div className="d-flex align-items-center">
             <i
@@ -58,17 +57,11 @@ function Header() {
             </span>
           </div>
         </Navbar.Brand>
-
-        {/* Toggle for Mobile */}
         <Navbar.Toggle aria-controls="navbar-nav" />
-
-        {/* Navigation Links */}
         <Navbar.Collapse id="navbar-nav" className="justify-content-end">
           <Nav className="align-items-center gap-3">
-            {/* Admin Dashboard Link (Visible for Admins) */}
             {role === 'admin' && (
               <Nav.Link as={Link} to="/admindash" aria-label="Admin Dashboard">
-                 
                 <Button
                   variant="outline-dark"
                   style={{
@@ -83,14 +76,8 @@ function Header() {
                 >
                   Admin Dashboard
                 </Button>
-                {/* <Link  to={'/track-order'}className="btn btn-outline-dark mx-3">order of admin</Link> */}
               </Nav.Link>
-             
-          
             )}
-            
-
-            {/* Logout Button with Hover Effect */}
             <Button
               variant="outline-danger"
               onClick={logout}

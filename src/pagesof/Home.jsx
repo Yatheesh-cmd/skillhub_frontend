@@ -812,7 +812,7 @@ function Home() {
               className="mt-3"
               style={{ color: '#4a5568', fontSize: '1.1rem', lineHeight: '1.7' }}
             >
-              Collaborating with industry giants like Google, AWS, and Microsoft, we ensure our curriculum reflects the latest advancements.
+               Our platform offers a wide range of courses, expertly crafted to help you acquire new skills and knowledge. With a user-friendly interface and seamless payment gateway, you can easily browse, purchase, and access courses. Our mission is to empower learners of all levels to achieve their goals and reach their full potential. Join our community today and start learning with SkillHub!"Collaborating with industry giants like Google, AWS, and Microsoft, we ensure our curriculum reflects the latest advancements.
             </p>
           </Col>
         </Row>

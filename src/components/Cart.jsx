@@ -201,7 +201,16 @@ function Cart() {
             </div>
           ))}
           <h4>Total: ₹{totalAmount.toFixed(2)}</h4>
-          <Button variant="success" onClick={handlePayment} disabled={loading}>
+          <Button style={{
+    background: 'linear-gradient(135deg,rgb(22, 212, 51),rgb(13, 72, 15))',
+    border: 'none',
+    color: '#fff',
+    fontWeight: '600',
+    padding: '0.5rem 1.5rem',
+    borderRadius: '30px',
+    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.15)',
+    transition: 'all 0.3s ease',
+  }} onClick={handlePayment} disabled={loading}>
             {loading ? <Spinner animation="border" size="sm" /> : 'Proceed to Payment'}
           </Button>
         </>

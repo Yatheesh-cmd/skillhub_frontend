@@ -20,7 +20,7 @@ function Wishlist() {
 
   return (
     <div className="wishlist-container mt-4">
-      <h2 className="fw-semibold text-info mb-3">Your Wishlist <i className="fa-solid fa-shield-heart"></i></h2>
+      <h2 className="fw-semibold text-secondary mb-3">Your Wishlist <i className="fa-solid fa-shield-heart"></i></h2>
       {wishlist.length > 0 ? (
         <ListGroup variant="flush">
           {wishlist.map((item) => (

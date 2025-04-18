@@ -35,12 +35,13 @@ function CourseCard({ course }) {
   return (
     <>
       <Card
-        className="h-100 border-0 shadow-sm"
+        className="h-100 border-0 shadow-sm "
         style={{
           width: '21rem',
           borderRadius: '15px',
           overflow: 'hidden',
           transition: 'transform 0.3s ease',
+          
         }}
         onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-10px)')}
         onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
@@ -81,7 +82,7 @@ function CourseCard({ course }) {
               <i className="fa-solid fa-calendar-alt me-1" style={{ color: '#718096' }}></i> {new Date(course.date).toLocaleDateString()}
             </Card.Text>
           )}
-          <div className="mt-3 d-flex justify-content-between align-items-center">
+          <div className="mt-1 d-flex justify-content-between align-items-center">
             <OverlayTrigger placement="top" overlay={<Tooltip>Add Course to Cart</Tooltip>}>
               <Button
                 variant="primary"

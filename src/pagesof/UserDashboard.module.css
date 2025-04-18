@@ -1,41 +1,37 @@
-/* UserDashboard.module.css */
 .sidebar {
-    background-color: #1e2a44;
-    min-height: 100vh;
-    padding: 1.5rem;
-  }
-  
-  .logo {
-    color: #ffffff;
-    font-weight: bold;
-    margin-bottom: 2.5rem;
-  }
-  
-  .navLink {
-    color: #ffffff;
-    margin-bottom: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.2s, color 0.2s;
-  }
-  
-  .navLink:hover {
-    background-color: #334155;
-    color: #ffffff;
-  }
-  
-  .navLinkActive {
-   
-    color: #ffffff;
-  }
-  
-  .navLinkActive:hover {
-    
-    color: #ffffff;
-  }
-  
-  .navIcon {
-    margin-right: 0.5rem;
-  }
+  background: #2c3e50;
+  padding: 20px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+
+.logo {
+  color: #d1d8e0;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.navLink {
+  color: #d1d8e0 !important;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: color 0.3s, background 0.3s;
+}
+
+.navLink:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.navLinkActive {
+  color: #4a00e0 !important;
+  background: rgba(74, 0, 224, 0.1);
+}
+
+.navIcon {
+  margin-right: 10px;
+}
+

@@ -8,7 +8,7 @@ const commonApi = async (url, method, headers = {}, data = {}, isMultipart = fal
     headers: isMultipart ? headers : { 'Content-Type': 'application/json', ...headers },
     data,
     onUploadProgress,
-    timeout: 100000,
+    timeout: 1000000,
   };
   try {
     const response = await axios(config);

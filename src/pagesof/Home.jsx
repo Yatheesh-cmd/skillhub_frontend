@@ -54,20 +54,20 @@ function Home() {
       <section className="hero-section position-relative overflow-hidden">
       {/* Enhanced Gradient Overlay */}
       <div
-        className="hero-background"
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          // background: 'linear-gradient(140deg, rgba(38, 35, 35, 0.74), rgba(27, 27, 27, 0.18))',
-          zIndex: 1,
-          opacity: 0.95,
-          animation: 'gradientShift 15s ease infinite',
-          backgroundSize: '200% 200%',
-        }}
-      ></div>
+  className="hero-background"
+  style={{
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    // background: 'linear-gradient(135deg, rgba(120, 140, 255, 0.13), rgba(180, 220, 255, 0.16))',
+    zIndex: 1,
+    opacity: 0.8, // Reduced opacity to let video shine through
+    animation: 'gradientShift 15s ease infinite',
+    backgroundSize: '200% 200%',
+  }}
+></div>
 
       {/* Background Video with Ref - Optimized for Autoplay */}
       <video

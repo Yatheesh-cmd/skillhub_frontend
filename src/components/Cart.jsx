@@ -201,8 +201,9 @@ function Cart() {
             </div>
           ))}
           <h4>Total: ₹{totalAmount.toFixed(2)}</h4>
-          <Button style={{
-    background: 'linear-gradient(135deg,rgb(22, 212, 51),rgb(13, 72, 15))',
+          <Button
+  style={{
+    background: 'linear-gradient(135deg, rgb(22, 212, 51), rgb(13, 72, 15))',
     border: 'none',
     color: '#fff',
     fontWeight: '600',
@@ -210,9 +211,22 @@ function Cart() {
     borderRadius: '30px',
     boxShadow: '0 4px 10px rgba(0, 0, 0, 0.15)',
     transition: 'all 0.3s ease',
-  }} onClick={handlePayment} disabled={loading}>
-            {loading ? <Spinner animation="border" size="sm" /> : 'Proceed to Payment'}
-          </Button>
+  }}
+  onClick={handlePayment}
+  disabled={loading}
+  onMouseEnter={(e) => {
+    e.target.style.background = 'linear-gradient(135deg, rgb(50, 230, 80), rgb(20, 100, 25))';
+    e.target.style.transform = 'scale(1.05)';
+    e.target.style.boxShadow = '0 6px 15px rgba(0, 0, 0, 0.2)';
+  }}
+  onMouseLeave={(e) => {
+    e.target.style.background = 'linear-gradient(135deg, rgb(14, 250, 49), rgb(9, 50, 11))';
+    e.target.style.transform = 'scale(1)';
+    e.target.style.boxShadow = '0 4px 10px rgba(0, 0, 0, 0.15)';
+  }}
+>
+  {loading ? <Spinner animation="border" size="sm" /> : 'Proceed to Payment'}
+</Button>
         </>
       ) : (
         <p>Your cart is empty</p>

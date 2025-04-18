@@ -1,21 +1,21 @@
 /* General Wrapper */
-/* .home-wrapper {
+ .home-wrapper {
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
-} */
+} 
 
 /* Hero Section */
-/* .hero-section {
-  min-height: 100vh; */
-  /* background: linear-gradient(135deg, #1D075A, #ff2b75, #0E1D72); */
-  /* padding: 0 3rem; */
-  /* color: #fff; */
-  /* position: relative;
+ .hero-section {
+  min-height: 100vh; 
+   background: linear-gradient(135deg, #1D075A, #ff2b75, #0E1D72); 
+   padding: 0 3rem; 
+  color: #fff; 
+   position: relative;
   overflow: hidden;
-} */
+} 
 .hero-section {
   padding: 0 2rem;}
-/*
+
 .hero-section h1 {
   font-size: 3.75rem;
   font-weight: 800;
@@ -25,9 +25,9 @@
 }
 
 .hero-section .highlight {
-  color: #FFD700;
+  /* color: #FFD700; */
   font-weight: 900;
-  background: linear-gradient(90deg, #FFD700, #FFEA80);
+  /* background: linear-gradient(90deg, #FFD700, #FFEA80); */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

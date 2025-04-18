@@ -710,7 +710,7 @@ function UserDashboard() {
           }}
         >
           <h6 style={{ fontSize: '1rem', marginBottom: '10px', color: '#ffffff' }}>Quick Stats</h6>
-          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
+          {/* <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem' }}>
             <div style={{ textAlign: 'center' }}>
               <FaLaptop style={{ color: '#4a00e0', marginBottom: '5px' }} />
               <p style={{ margin: 0 }}>5 Courses</p>
@@ -723,7 +723,7 @@ function UserDashboard() {
               <FaGraduationCap style={{ color: '#ff8c00', marginBottom: '5px' }} />
               <p style={{ margin: 0 }}>3 Badges</p>
             </div>
-          </div>
+          </div> */}
         </div>
         <div
           style={{
@@ -735,12 +735,12 @@ function UserDashboard() {
             borderTop: '1px solid rgba(255, 255, 255, 0.1)',
           }}
         >
-          <p style={{ margin: 0, opacity: 0.7 }}>Connect with us</p>
+          {/* <p style={{ margin: 0, opacity: 0.7 }}>Connect with us</p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '10px', marginTop: '5px' }}>
             <FaUserCircle style={{ cursor: 'pointer', transition: 'color 0.3s' }} onMouseEnter={(e) => (e.currentTarget.style.color = '#4a00e0')} onMouseLeave={(e) => (e.currentTarget.style.color = '#d1d8e0')} />
             <FaChartLine style={{ cursor: 'pointer', transition: 'color 0.3s' }} onMouseEnter={(e) => (e.currentTarget.style.color = '#4a00e0')} onMouseLeave={(e) => (e.currentTarget.style.color = '#d1d8e0')} />
             <FaLaptop style={{ cursor: 'pointer', transition: 'color 0.3s' }} onMouseEnter={(e) => (e.currentTarget.style.color = '#4a00e0')} onMouseLeave={(e) => (e.currentTarget.style.color = '#d1d8e0')} />
-          </div>
+          </div> */}
         </div>
         <style>
           {`
